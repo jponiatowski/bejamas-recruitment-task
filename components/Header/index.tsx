@@ -3,12 +3,15 @@ import styled from "styled-components";
 
 import BejamasIcon from "icons/Bejamas";
 import CartIcon from "icons/Cart";
+import Link from "components/Link";
 
 const Header: React.FC = () => {
   return (
     <HeaderContainer>
       <BejamasIconWrapper>
-        <BejamasIcon />
+        <Link href="/" passHref>
+          <BejamasIcon />
+        </Link>
       </BejamasIconWrapper>
       <CartIconWrapper>
         <CartIcon />
@@ -41,7 +44,7 @@ const HeaderContainer = styled.header`
   border-bottom: 4px solid ${(p) => p.theme.colors.gray};
 
   @media (max-width: ${(p) => p.theme.breakpoints.mobile}) {
-    padding-bottom: 32px;
+    padding: 0 18px 32px 18px;
   }
 `;
 
