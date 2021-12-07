@@ -22,8 +22,8 @@ const getRatio = (width: number, height: number): number => {
 
 export const Photo: React.FC<PhotoProps> = ({ width, height, src, alt }) => {
   return (
-    <Figure ratio={getRatio(width, height)}>
-      <ImageWrapper>
+    <ImageWrapper ratio={getRatio(width, height)}>
+      <Figure>
         <NextImage
           src={src}
           alt={alt}
@@ -31,12 +31,12 @@ export const Photo: React.FC<PhotoProps> = ({ width, height, src, alt }) => {
           height={height}
           layout="responsive"
         />
-      </ImageWrapper>
-    </Figure>
+      </Figure>
+    </ImageWrapper>
   );
 };
 
-const ImageWrapper = styled.div`
+const Figure = styled.figure`
   position: absolute;
   top: 50%;
   left: 50%;
@@ -45,7 +45,7 @@ const ImageWrapper = styled.div`
   height: auto;
 `;
 
-const Figure = styled.figure<{ ratio: number }>`
+const ImageWrapper = styled.div<{ ratio: number }>`
   grid-area: photo;
   margin-top: 27px;
   margin-bottom: 46px;
