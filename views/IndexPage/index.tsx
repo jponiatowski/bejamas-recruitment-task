@@ -2,11 +2,13 @@ import React from "react";
 import styled from "styled-components";
 
 import FeaturedProductSection from "views/IndexPage/Sections/FeaturedProduct";
+import PremiumPhotosSection from "views/IndexPage/Sections/PremiumPhotos";
 
 const IndexPage: React.FC = () => {
   return (
     <Main>
       <FeaturedProductSection />
+      <PremiumPhotosSection />
     </Main>
   );
 };

@@ -67,6 +67,8 @@ const Layout = styled.section`
   grid-template-columns: 2fr 1fr;
   column-gap: 174px;
   grid-template-areas: "title button" "photo photo" "description recommended" "description details";
+  padding-bottom: 65px;
+  border-bottom: 4px solid ${(p) => p.theme.colors.grayLight};
 
   @media (max-width: ${(p) => p.theme.breakpoints.mobile}) {
     grid-template-columns: 1fr;

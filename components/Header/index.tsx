@@ -41,7 +41,7 @@ const HeaderContainer = styled.header`
   justify-content: space-between;
   align-items: center;
   padding-bottom: 36px;
-  border-bottom: 4px solid ${(p) => p.theme.colors.gray};
+  border-bottom: 4px solid ${(p) => p.theme.colors.grayLight};
 
   @media (max-width: ${(p) => p.theme.breakpoints.mobile}) {
     padding: 0 18px 32px 18px;
