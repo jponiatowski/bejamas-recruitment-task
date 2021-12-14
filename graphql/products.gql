@@ -1,0 +1,23 @@
+query ProductsQuery {
+  products {
+    nodes {
+      bestseller
+      category_id
+      currency
+      description
+      featured
+      id
+      image {
+        alt
+        height
+        id
+        size
+        src
+        width
+      }
+      name
+      price
+      recommended
+    }
+  }
+}

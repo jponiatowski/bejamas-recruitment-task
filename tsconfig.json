@@ -23,6 +23,9 @@
       "views/*": ["./views/*"],
       "icons/*": ["./icons/*"],
       "graphql/*": ["./graphql/*"],
+      "utils/*": ["./utils/*"],
+      "constants/*": ["./constants/*"],
+      "data/*": ["./data/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
