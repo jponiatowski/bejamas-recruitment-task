@@ -24,7 +24,8 @@
       "icons/*": ["./icons/*"],
       "graphql/*": ["./graphql/*"],
       "utils/*": ["./utils/*"],
-      "constants/*": ["./constants/*"]
+      "constants/*": ["./constants/*"],
+      "data/*": ["./data/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

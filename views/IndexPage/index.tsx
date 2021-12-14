@@ -3,11 +3,14 @@ import styled from "styled-components";
 
 import FeaturedProductSection from "views/IndexPage/Sections/FeaturedProduct";
 import PremiumPhotosSection from "views/IndexPage/Sections/PremiumPhotos";
+import { HomeProps } from "pages/index";
 
-const IndexPage: React.FC = () => {
+export interface IndexPageProps extends HomeProps {}
+
+const IndexPage: React.FC<IndexPageProps> = ({ featuredProduct }) => {
   return (
     <Main>
-      <FeaturedProductSection />
+      <FeaturedProductSection featuredProduct={featuredProduct} />
       <PremiumPhotosSection />
     </Main>
   );

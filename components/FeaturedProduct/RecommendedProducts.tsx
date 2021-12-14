@@ -2,8 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import NextImage from "next/image";
 
+import { FeaturedProductQuery } from "types/api";
+
 interface RecommendedProducts {
-  recommendedProducts: { id: number; src: string; alt: string }[];
+  recommendedProducts: FeaturedProductQuery["product"][number]["recommendeds"];
 }
 
 export const RecommendedProducts: React.FC<RecommendedProducts> = ({
@@ -17,11 +19,11 @@ export const RecommendedProducts: React.FC<RecommendedProducts> = ({
     <RecommendedProductsContainer>
       <RecommendedHeader>People also buy</RecommendedHeader>
       <RecommendedGrid>
-        {recommendedProducts.map(({ id, src, alt }) => (
-          <Figure key={id}>
+        {recommendedProducts.map((product) => (
+          <Figure key={product.productByRecommendedProductId.id}>
             <NextImage
-              src={src}
-              alt={alt}
+              src={product.productByRecommendedProductId.image.src}
+              alt={product.productByRecommendedProductId.image.alt}
               width={117}
               height={147}
               layout="responsive"

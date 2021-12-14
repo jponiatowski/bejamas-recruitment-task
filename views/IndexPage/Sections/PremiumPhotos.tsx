@@ -45,7 +45,7 @@ const MOCKED_DATA = {
       price: 9.51,
       bestSeller: true,
       image: {
-        src: "https://images.pexels.com/photos/9404467/pexels-photo-9404467.jpeg",
+        src: "https://images.pexels.com/photos/933498/pexels-photo-933498.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
         alt: "Green Moss on Gray Rock",
       },
     },
@@ -55,7 +55,7 @@ const MOCKED_DATA = {
       price: 9.5,
       bestSeller: true,
       image: {
-        src: "https://images.pexels.com/photos/9404467/pexels-photo-9404467.jpeg",
+        src: "https://images.pexels.com/photos/933498/pexels-photo-933498.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
         alt: "Green Moss on Gray Rock",
       },
     },
@@ -65,7 +65,7 @@ const MOCKED_DATA = {
       price: 9.5,
       bestSeller: true,
       image: {
-        src: "https://images.pexels.com/photos/9404467/pexels-photo-9404467.jpeg",
+        src: "https://images.pexels.com/photos/933498/pexels-photo-933498.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
         alt: "Green Moss on Gray Rock",
       },
     },
@@ -75,7 +75,7 @@ const MOCKED_DATA = {
       price: 9.5,
       bestSeller: true,
       image: {
-        src: "https://images.pexels.com/photos/9404467/pexels-photo-9404467.jpeg",
+        src: "https://images.pexels.com/photos/933498/pexels-photo-933498.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
         alt: "Green Moss on Gray Rock",
       },
     },
@@ -85,7 +85,7 @@ const MOCKED_DATA = {
       price: 9.5,
       bestSeller: true,
       image: {
-        src: "https://images.pexels.com/photos/9404467/pexels-photo-9404467.jpeg",
+        src: "https://images.pexels.com/photos/933498/pexels-photo-933498.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
         alt: "Green Moss on Gray Rock",
       },
     },
@@ -95,7 +95,7 @@ const MOCKED_DATA = {
       price: 9.5,
       bestSeller: true,
       image: {
-        src: "https://images.pexels.com/photos/9404467/pexels-photo-9404467.jpeg",
+        src: "https://images.pexels.com/photos/933498/pexels-photo-933498.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
         alt: "Green Moss on Gray Rock",
       },
     },

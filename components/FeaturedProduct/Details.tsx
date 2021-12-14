@@ -1,12 +1,19 @@
 import React from "react";
 import styled from "styled-components";
+import { Image } from "types/api";
 
-export const Details: React.FC = () => {
+interface DetailsProps {
+  width: Image["width"];
+  height: Image["height"];
+  size: Image["size"];
+}
+
+export const Details: React.FC<DetailsProps> = ({ width, height, size }) => {
   return (
     <DetailsContainer>
       <DetailsHeader>Details</DetailsHeader>
-      <Detail>Size: 1020 x 1020 pixel</Detail>
-      <Detail>Size: 20 mb</Detail>
+      <Detail>{`Size: ${width} x ${height} pixel`}</Detail>
+      <Detail>{`Size: ${size} mb`}</Detail>
     </DetailsContainer>
   );
 };
