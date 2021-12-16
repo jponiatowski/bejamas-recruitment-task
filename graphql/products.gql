@@ -1,23 +1,43 @@
+fragment product on product {
+  bestseller
+  category_id
+  currency
+  description
+  featured
+  id
+  image {
+    alt
+    height
+    id
+    size
+    src
+    width
+  }
+  name
+  price
+}
+
 query ProductsQuery {
   products {
     nodes {
-      bestseller
-      category_id
-      currency
-      description
-      featured
-      id
-      image {
-        alt
-        height
+      ...product
+    }
+  }
+  featuredProduct: product(where: { featured: { _eq: true } }) {
+    ...product
+    recommendeds {
+      productByRecommendedProductId {
         id
-        size
-        src
-        width
+        name
+        image {
+          alt
+          height
+          id
+          size
+          src
+          width
+        }
       }
-      name
-      price
-      recommended
     }
   }
 }

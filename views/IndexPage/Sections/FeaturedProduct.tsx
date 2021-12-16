@@ -8,32 +8,42 @@ import {
   RecommendedProducts,
   Details,
 } from "components/FeaturedProduct";
-import { HomeProps } from "pages/index";
+import { useAppDispatch } from "store/hooks";
+import { addProduct } from "store";
+import { FeaturedProduct as FeatureProductType } from "types/api";
 
-interface FeaturedProductProps extends Pick<HomeProps, "featuredProduct"> {}
+interface FeaturedProductProps {
+  featuredProduct: FeatureProductType;
+}
 
 const FeaturedProduct: React.FC<FeaturedProductProps> = ({
-  featuredProduct: { product },
+  featuredProduct,
 }) => {
+  const dispatch = useAppDispatch();
+
+  const handleAddProduct = () => {
+    dispatch(addProduct(featuredProduct));
+  };
+
   return (
     <Layout>
-      <Title>{product[0].name}</Title>
-      <AddToCartButton> Add to cart</AddToCartButton>
+      <Title>{featuredProduct.name}</Title>
+      <AddToCartButton onClick={handleAddProduct}> Add to cart</AddToCartButton>
       <Photo
-        src={product[0].image.src}
-        alt={product[0].image.alt}
+        src={featuredProduct.image.src}
+        alt={featuredProduct.image.alt}
         width={321}
         height={192}
       />
       <Description
-        title={product[0].name}
-        description={product[0].description}
+        title={featuredProduct.name}
+        description={featuredProduct.description}
       />
-      <RecommendedProducts recommendedProducts={product[0].recommendeds} />
+      <RecommendedProducts recommendedProducts={featuredProduct.recommendeds} />
       <Details
-        width={product[0].image.width}
-        height={product[0].image.height}
-        size={product[0].image.size}
+        width={featuredProduct.image.width}
+        height={featuredProduct.image.height}
+        size={featuredProduct.image.size}
       />
     </Layout>
   );

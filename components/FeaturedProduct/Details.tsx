@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Image } from "types/api";
+import { Image } from "types/hasura";
 
 interface DetailsProps {
   width: Image["width"];

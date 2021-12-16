@@ -4,6 +4,7 @@ import styled from "styled-components";
 import BejamasIcon from "icons/Bejamas";
 import CartIcon from "icons/Cart";
 import Link from "components/Link";
+import Cart from "components/Cart";
 
 const Header: React.FC = () => {
   return (
@@ -13,9 +14,7 @@ const Header: React.FC = () => {
           <BejamasIcon />
         </Link>
       </BejamasIconWrapper>
-      <CartIconWrapper>
-        <CartIcon />
-      </CartIconWrapper>
+      <Cart />
     </HeaderContainer>
   );
 };
@@ -28,7 +27,10 @@ const BejamasIconWrapper = styled.div`
   }
 `;
 
-const CartIconWrapper = styled.div`
+const CartIconWrapper = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
   width: 54px;
 
   @media (max-width: ${(p) => p.theme.breakpoints.mobile}) {

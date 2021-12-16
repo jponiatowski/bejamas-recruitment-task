@@ -4,29 +4,27 @@ import Head from "next/head";
 import client from "data/apollo-client";
 import IndexPageView from "views/IndexPage";
 import PRODUCTS_QUERY from "graphql/products.gql";
-import FEATURED_PRODUCT_QUERY from "graphql/featuredProduct.gql";
-import {
-  ProductsQueryQuery as Products,
-  FeaturedProductQuery as FeaturedProduct,
-} from "types/api";
+import { Product, FeaturedProduct } from "types/api";
 
 export const getStaticProps = async () => {
-  const products = await client.query({
+  const { data } = await client.query<{
+    products: Product[];
+    featuredProduct: FeaturedProduct[];
+  }>({
     query: PRODUCTS_QUERY,
   });
-  const featuredProduct = await client.query({ query: FEATURED_PRODUCT_QUERY });
 
   return {
     props: {
-      products: products.data,
-      featuredProduct: featuredProduct.data,
+      products: data.products,
+      featuredProduct: data.featuredProduct,
     },
   };
 };
 
 export interface HomeProps {
-  products: Products;
-  featuredProduct: FeaturedProduct;
+  featuredProduct: FeaturedProduct[];
+  products: Product[];
 }
 
 const Home: NextPage<HomeProps> = (props) => {

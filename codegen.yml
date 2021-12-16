@@ -5,7 +5,7 @@ schema:
         x-hasura-admin-secret: ${HASURA_KEY}
 documents: "./graphql/*"
 generates:
-  ./types/api.ts:
+  ./types/hasura.ts:
     plugins:
       - "typescript"
       - "typescript-operations"
