@@ -4,6 +4,7 @@ import styled, { css } from "styled-components";
 interface ButtonProps {
   variant?: "primary" | "secondary";
   className?: string;
+  disabled?: boolean;
   onClick?: () => void;
 }
 
@@ -15,6 +16,12 @@ const getButtonStylesByVariant = (
       color: #000;
       background-color: #fff;
       border: 3px solid #000;
+
+      &:disabled {
+        color: #656565;
+        background-color: #fff;
+        border: 3px solid #656565;
+      }
     `;
   }
 
@@ -29,10 +36,16 @@ const Button: React.FC<ButtonProps> = ({
   variant = "primary",
   children,
   className,
+  disabled,
   onClick,
 }) => {
   return (
-    <StyledButton onClick={onClick} className={className} variant={variant}>
+    <StyledButton
+      disabled={disabled}
+      onClick={onClick}
+      className={className}
+      variant={variant}
+    >
       {children}
     </StyledButton>
   );
@@ -46,6 +59,10 @@ const StyledButton = styled.button<Pick<ButtonProps, "variant">>`
   cursor: pointer;
   letter-spacing: 0.07em;
   height: fit-content;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
 
   ${(p) => getButtonStylesByVariant(p.variant)}
 

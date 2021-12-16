@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import NextImage from "next/image";
 
-import { FeaturedProductQuery } from "types/api";
+import { FeaturedProductQuery } from "types/hasura";
 
 interface RecommendedProducts {
   recommendedProducts: FeaturedProductQuery["product"][number]["recommendeds"];
