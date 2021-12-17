@@ -8,7 +8,7 @@ import {
   RecommendedProducts,
   Details,
 } from "components/FeaturedProduct";
-import { useAppDispatch } from "store/hooks";
+import { useAppDispatch } from "~/store/hooks";
 import { addProduct } from "store";
 import { FeaturedProduct as FeatureProductType } from "types/api";
 

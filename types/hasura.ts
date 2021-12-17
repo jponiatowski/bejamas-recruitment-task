@@ -13,7 +13,6 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  money: any;
   numeric: any;
   uuid: any;
 };
@@ -494,19 +493,6 @@ export type Image_Variance_Fields = {
   width?: Maybe<Scalars['Float']>;
 };
 
-/** Boolean expression to compare columns of type "money". All fields are combined with logical 'AND'. */
-export type Money_Comparison_Exp = {
-  _eq?: InputMaybe<Scalars['money']>;
-  _gt?: InputMaybe<Scalars['money']>;
-  _gte?: InputMaybe<Scalars['money']>;
-  _in?: InputMaybe<Array<Scalars['money']>>;
-  _is_null?: InputMaybe<Scalars['Boolean']>;
-  _lt?: InputMaybe<Scalars['money']>;
-  _lte?: InputMaybe<Scalars['money']>;
-  _neq?: InputMaybe<Scalars['money']>;
-  _nin?: InputMaybe<Array<Scalars['money']>>;
-};
-
 /** mutation root */
 export type Mutation_Root = {
   __typename?: 'mutation_root';
@@ -768,7 +754,7 @@ export type Product = {
   image: Image;
   image_id: Scalars['uuid'];
   name: Scalars['String'];
-  price: Scalars['money'];
+  price: Scalars['numeric'];
   recommended?: Maybe<Scalars['uuid']>;
   /** An array relationship */
   recommendeds: Array<Recommended>;
@@ -898,7 +884,7 @@ export type Product_Bool_Exp = {
   image?: InputMaybe<Image_Bool_Exp>;
   image_id?: InputMaybe<Uuid_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
-  price?: InputMaybe<Money_Comparison_Exp>;
+  price?: InputMaybe<Numeric_Comparison_Exp>;
   recommended?: InputMaybe<Uuid_Comparison_Exp>;
   recommendeds?: InputMaybe<Recommended_Bool_Exp>;
   recommendedsByRecommendedProductId?: InputMaybe<Recommended_Bool_Exp>;
@@ -912,7 +898,7 @@ export enum Product_Constraint {
 
 /** input type for incrementing numeric columns in table "product" */
 export type Product_Inc_Input = {
-  price?: InputMaybe<Scalars['money']>;
+  price?: InputMaybe<Scalars['numeric']>;
 };
 
 /** input type for inserting data into table "product" */
@@ -927,7 +913,7 @@ export type Product_Insert_Input = {
   image?: InputMaybe<Image_Obj_Rel_Insert_Input>;
   image_id?: InputMaybe<Scalars['uuid']>;
   name?: InputMaybe<Scalars['String']>;
-  price?: InputMaybe<Scalars['money']>;
+  price?: InputMaybe<Scalars['numeric']>;
   recommended?: InputMaybe<Scalars['uuid']>;
   recommendeds?: InputMaybe<Recommended_Arr_Rel_Insert_Input>;
   recommendedsByRecommendedProductId?: InputMaybe<Recommended_Arr_Rel_Insert_Input>;
@@ -942,7 +928,7 @@ export type Product_Max_Fields = {
   id?: Maybe<Scalars['uuid']>;
   image_id?: Maybe<Scalars['uuid']>;
   name?: Maybe<Scalars['String']>;
-  price?: Maybe<Scalars['money']>;
+  price?: Maybe<Scalars['numeric']>;
   recommended?: Maybe<Scalars['uuid']>;
 };
 
@@ -967,7 +953,7 @@ export type Product_Min_Fields = {
   id?: Maybe<Scalars['uuid']>;
   image_id?: Maybe<Scalars['uuid']>;
   name?: Maybe<Scalars['String']>;
-  price?: Maybe<Scalars['money']>;
+  price?: Maybe<Scalars['numeric']>;
   recommended?: Maybe<Scalars['uuid']>;
 };
 
@@ -1063,7 +1049,7 @@ export type Product_Set_Input = {
   id?: InputMaybe<Scalars['uuid']>;
   image_id?: InputMaybe<Scalars['uuid']>;
   name?: InputMaybe<Scalars['String']>;
-  price?: InputMaybe<Scalars['money']>;
+  price?: InputMaybe<Scalars['numeric']>;
   recommended?: InputMaybe<Scalars['uuid']>;
 };
 
@@ -1103,7 +1089,7 @@ export type Product_Stddev_Samp_Order_By = {
 /** aggregate sum on columns */
 export type Product_Sum_Fields = {
   __typename?: 'product_sum_fields';
-  price?: Maybe<Scalars['money']>;
+  price?: Maybe<Scalars['numeric']>;
 };
 
 /** order by sum() on columns of table "product" */
@@ -1695,7 +1681,9 @@ export type Uuid_Comparison_Exp = {
 
 export type ProductFragment = { __typename?: 'product', bestseller: boolean, category_id: any, currency: string, description: string, featured: boolean, id: any, name: string, price: any, image: { __typename?: 'image', alt: string, height: number, id: any, size: any, src: string, width: number } };
 
-export type ProductsQueryQueryVariables = Exact<{ [key: string]: never; }>;
+export type ProductsQueryQueryVariables = Exact<{
+  order_by?: InputMaybe<Array<Product_Order_By> | Product_Order_By>;
+}>;
 
 
 export type ProductsQueryQuery = { __typename?: 'query_root', products: { __typename?: 'product_aggregate', nodes: Array<{ __typename?: 'product', bestseller: boolean, category_id: any, currency: string, description: string, featured: boolean, id: any, name: string, price: any, image: { __typename?: 'image', alt: string, height: number, id: any, size: any, src: string, width: number } }> }, featuredProduct: Array<{ __typename?: 'product', bestseller: boolean, category_id: any, currency: string, description: string, featured: boolean, id: any, name: string, price: any, recommendeds: Array<{ __typename?: 'recommended', productByRecommendedProductId: { __typename?: 'product', id: any, name: string, image: { __typename?: 'image', alt: string, height: number, id: any, size: any, src: string, width: number } } }>, image: { __typename?: 'image', alt: string, height: number, id: any, size: any, src: string, width: number } }> };
@@ -1721,13 +1709,13 @@ export const ProductFragmentDoc = gql`
 }
     `;
 export const ProductsQueryDocument = gql`
-    query ProductsQuery {
-  products {
+    query ProductsQuery($order_by: [product_order_by!] = {}) {
+  products(order_by: $order_by) {
     nodes {
       ...product
     }
   }
-  featuredProduct: product(where: {featured: {_eq: true}}) {
+  featuredProduct: product(where: {featured: {_eq: true}}, limit: 1) {
     ...product
     recommendeds {
       productByRecommendedProductId {
@@ -1759,6 +1747,7 @@ export const ProductsQueryDocument = gql`
  * @example
  * const { data, loading, error } = useProductsQueryQuery({
  *   variables: {
+ *      order_by: // value for 'order_by'
  *   },
  * });
  */

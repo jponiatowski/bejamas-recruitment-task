@@ -10,13 +10,13 @@ export interface IndexPageProps {
   products: Product[];
 }
 
-const IndexPage: React.FC<IndexPageProps> = ({ featuredProduct }) => {
+const IndexPage: React.FC<IndexPageProps> = ({ featuredProduct, products }) => {
   return (
     <Main>
       {featuredProduct.length ? (
         <FeaturedProductSection featuredProduct={featuredProduct[0]} />
       ) : null}
-      <PremiumPhotosSection />
+      <PremiumPhotosSection products={products} />
     </Main>
   );
 };

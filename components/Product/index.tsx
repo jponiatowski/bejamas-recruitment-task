@@ -1,24 +1,40 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import NextImage from "next/image";
 
 import Button from "components/Button";
+import { Product as ProductType } from "types/api";
+import { useAppDispatch } from "~/store/hooks";
+import { addProduct } from "store";
 
 interface ProductProps {
-  image: {
-    src: string;
-    alt: string;
-  };
-  category: string;
-  title: string;
-  price: number;
-  bestSeller?: boolean;
+  product: ProductType;
 }
 
-const Product: React.FC<ProductProps> = ({ image, category, title, price }) => {
+const Product: React.FC<ProductProps> = ({ product }) => {
+  const [showCartButton, setShowCartButton] = React.useState(false);
+  const dispatch = useAppDispatch();
+
+  const { image, category, name, price, bestseller } = product;
+
+  const handleAddProduct = () => {
+    dispatch(addProduct(product));
+  };
+
+  const handleShowCartButton = () => {
+    setShowCartButton(true);
+  };
+
+  const handleHideCartButton = () => {
+    setShowCartButton(false);
+  };
+
   return (
     <ProductContainer>
-      <Photo>
+      <Photo
+        onMouseEnter={handleShowCartButton}
+        onMouseLeave={handleHideCartButton}
+      >
         <NextImage
           width={280}
           height={390}
@@ -26,12 +42,16 @@ const Product: React.FC<ProductProps> = ({ image, category, title, price }) => {
           alt={image.alt}
           layout="responsive"
         />
-        <BestSeller>Best Seller</BestSeller>
-        <StyledButton>Add to cart</StyledButton>
+        {bestseller && <BestSeller>Best Seller</BestSeller>}
+        {
+          <StyledButton onClick={handleAddProduct} show={showCartButton}>
+            Add to cart
+          </StyledButton>
+        }
       </Photo>
-      <Category>{category}</Category>
-      <Title>{title}</Title>
-      <Price>{`$${price}`}</Price>
+      <Category>{"category"}</Category>
+      <Title>{name}</Title>
+      <Price>{price}</Price>
     </ProductContainer>
   );
 };
@@ -42,11 +62,28 @@ const ProductContainer = styled.div`
   }
 `;
 
-const StyledButton = styled(Button)`
+const StyledButton = styled(Button)<{ show: boolean }>`
   position: absolute;
   left: 0;
   bottom: 0;
   width: 100%;
+  overflow: hidden;
+  transition: all 0.1s linear;
+
+  * > {
+    display: none;
+  }
+
+  ${(p) =>
+    p.show
+      ? css`
+          height: fit-content;
+          padding: 13px 39px;
+        `
+      : css`
+          height: 0px;
+          padding: 0px;
+        `};
 `;
 
 const BestSeller = styled.div`
