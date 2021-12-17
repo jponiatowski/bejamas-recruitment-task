@@ -3,28 +3,32 @@ import styled from "styled-components";
 
 import SortIcon from "icons/Sort";
 import ArrowIcon from "icons/Arrow";
+import { TSortBy } from "~/utils/getSortedData";
 
 interface SortByProps {
+  value: TSortBy;
   options: {
     label: string;
     value: string;
   }[];
   className?: string;
-  onSortByChange?: (e?: React.SyntheticEvent) => void;
-  onOrderChange?: (e?: React.SyntheticEvent) => void;
+  onChangeSortBy?: (e: React.SyntheticEvent<HTMLSelectElement>) => void;
+  onChangeOrder?: (e?: React.SyntheticEvent) => void;
 }
 
 const SortBy: React.FC<SortByProps> = ({
+  value,
+  options,
   className,
-  onSortByChange,
-  onOrderChange,
+  onChangeSortBy,
+  onChangeOrder,
 }) => {
-  const handleSortByChange = () => {
-    typeof onSortByChange !== "undefined" && onSortByChange();
+  const handleSortByChange = (e: React.SyntheticEvent<HTMLSelectElement>) => {
+    typeof onChangeSortBy !== "undefined" && onChangeSortBy(e);
   };
 
   const handleOrderChange = () => {
-    typeof onOrderChange !== "undefined" && onOrderChange();
+    typeof onChangeOrder !== "undefined" && onChangeOrder();
   };
 
   return (
@@ -33,9 +37,12 @@ const SortBy: React.FC<SortByProps> = ({
         <SortIcon />
       </SortIconWrapper>
       <Label>Sort By</Label>
-      <Select name="sortBy" onClick={handleSortByChange}>
-        <Option value="price">Price</Option>
-        <Option value="alphabetical">Alphabetical</Option>
+      <Select value={value} name="sortBy" onChange={handleSortByChange}>
+        {options.map(({ value, label }) => (
+          <Option key={value} value={value}>
+            {label}
+          </Option>
+        ))}
       </Select>
       {/* TODO: clickable arrow */}
       <ArrowIconWrapper>

@@ -17,13 +17,13 @@ fragment product on product {
   price
 }
 
-query ProductsQuery {
-  products {
+query ProductsQuery($order_by: [product_order_by!] = {}) {
+  products(order_by: $order_by) {
     nodes {
       ...product
     }
   }
-  featuredProduct: product(where: { featured: { _eq: true } }) {
+  featuredProduct: product(where: { featured: { _eq: true } }, limit: 1) {
     ...product
     recommendeds {
       productByRecommendedProductId {

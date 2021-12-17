@@ -4,34 +4,21 @@ import NextImage from "next/image";
 
 import CartIcon from "icons/Cart";
 import CloseIcon from "icons/Close";
-import { getCartProducts } from "store/selectors/getCartProducts";
-import { getIsCartOpen } from "store/selectors/getIsCartOpen";
+import { getCartProducts } from "~/store/selectors/getCartProducts";
+import { getIsCartOpen } from "~/store/selectors/getIsCartOpen";
 import { zIndex } from "constants/zIndex";
 import Button from "components/Button";
-import { clearCart, openCart, closeCart } from "store";
-import { useAppDispatch, useAppSelector } from "store/hooks";
+import { useAppSelector } from "~/store/hooks";
+import { useCart } from "@hooks/useCart";
 
 const Cart: React.FC = () => {
-  const dispatch = useAppDispatch();
   const cartProducts = useAppSelector(getCartProducts);
   const isOpen = useAppSelector(getIsCartOpen);
-
-  const handleOpenCart = () => {
-    dispatch(openCart());
-  };
-
-  const handleCloseCart = () => {
-    dispatch(closeCart());
-  };
-
-  const handleClear = () => {
-    dispatch(clearCart());
-    dispatch(closeCart());
-  };
+  const { handleCloseCart, handleClear, handleToggleCart } = useCart();
 
   return (
     <Container>
-      <CartIconButton onClick={handleOpenCart}>
+      <CartIconButton onClick={handleToggleCart}>
         <CartIcon />
       </CartIconButton>
       {isOpen ? (
@@ -39,7 +26,6 @@ const Cart: React.FC = () => {
           <CloseIconButton onClick={handleCloseCart}>
             <CloseIcon />
           </CloseIconButton>
-          {/* {cartProducts.map((product) => product.name)} */}
           {cartProducts.length ? (
             cartProducts.map((product) => (
               <Product key={product.id}>
@@ -83,9 +69,11 @@ const NoProducts = styled.div`
 `;
 
 const Product = styled.div`
-  width: 100%;
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 150px;
   align-items: center;
+  column-gap: 20px;
+  width: 100%;
   border-bottom: 1px solid #c2c2c2;
   padding: 24px 0;
   margin-bottom: 25px;
@@ -107,7 +95,6 @@ const ProductPrice = styled.div`
 
 const ProductImageWrapper = styled.figure`
   width: 150px;
-  margin-left: 20px;
 `;
 
 const StyledButton = styled(Button)`

@@ -16,6 +16,7 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
+      "~/*": ["./*"],
       "pages/*": ["./pages/*"],
       "public/*": ["./public/*"],
       "theme/*": ["./theme/*"], 
@@ -26,9 +27,9 @@
       "utils/*": ["./utils/*"],
       "constants/*": ["./constants/*"],
       "data/*": ["./data/*"],
-      "store/*": ["./store/*"]
+      "@hooks/*": ["./hooks/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "data/apollo.js"],
   "exclude": ["node_modules"]
 }

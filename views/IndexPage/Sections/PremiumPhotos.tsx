@@ -1,14 +1,17 @@
 import React from "react";
 import styled from "styled-components";
+import { useRouter } from "next/router";
 
 import FiltersIcon from "icons/Filters";
 import SectionHeader from "components/SectionHeader";
-import SortBy from "components/SortBy";
+import SortByComponent from "components/SortBy";
 import FiltersMenu, { FiltersMenuContainer } from "components/FiltersMenu";
 import Product from "components/Product";
 import Pagination from "components/Pagination";
 import { lockPageScroll } from "utils/lockPageScroll";
 import { unlockPageScroll } from "utils/unlockPageScroll";
+import { Product as ProductType } from "types/api";
+import { getSortedProducts, TSortBy, TOrder } from "~/utils/getSortedData";
 
 const MOCKED_DATA = {
   category: [
@@ -38,72 +41,58 @@ const MOCKED_DATA = {
       value: "4",
     },
   ],
-  products: [
-    {
-      title: "Green Moss on Gray Rock",
-      category: "Nature",
-      price: 9.51,
-      bestSeller: true,
-      image: {
-        src: "https://images.pexels.com/photos/933498/pexels-photo-933498.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-        alt: "Green Moss on Gray Rock",
-      },
-    },
-    {
-      title: "Green Moss on Gray Rock",
-      category: "Nature",
-      price: 9.5,
-      bestSeller: true,
-      image: {
-        src: "https://images.pexels.com/photos/933498/pexels-photo-933498.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-        alt: "Green Moss on Gray Rock",
-      },
-    },
-    {
-      title: "Green Moss on Gray Rock",
-      category: "Nature",
-      price: 9.5,
-      bestSeller: true,
-      image: {
-        src: "https://images.pexels.com/photos/933498/pexels-photo-933498.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-        alt: "Green Moss on Gray Rock",
-      },
-    },
-    {
-      title: "Green Moss on Gray Rock",
-      category: "Nature",
-      price: 9.5,
-      bestSeller: true,
-      image: {
-        src: "https://images.pexels.com/photos/933498/pexels-photo-933498.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-        alt: "Green Moss on Gray Rock",
-      },
-    },
-    {
-      title: "Green Moss on Gray Rock",
-      category: "Nature",
-      price: 9.5,
-      bestSeller: true,
-      image: {
-        src: "https://images.pexels.com/photos/933498/pexels-photo-933498.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-        alt: "Green Moss on Gray Rock",
-      },
-    },
-    {
-      title: "Green Moss on Gray Rock",
-      category: "Nature",
-      price: 9.5,
-      bestSeller: true,
-      image: {
-        src: "https://images.pexels.com/photos/933498/pexels-photo-933498.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-        alt: "Green Moss on Gray Rock",
-      },
-    },
-  ],
 };
 
-const PremiumPhotos: React.FC = () => {
+const sortByOptions = [
+  { value: "price", label: "Price" },
+  { value: "name", label: "Alphabetical" },
+];
+
+interface PremiumPhotosProps {
+  products: ProductType[];
+}
+
+const PremiumPhotos: React.FC<PremiumPhotosProps> = ({ products }) => {
+  const router = useRouter();
   const [filtersOpen, setFiltersOpen] = React.useState(false);
+  const [sortBy, setSortBy] = React.useState(
+    (router.query.sortBy as TSortBy) || "price"
+  );
+  const [order, setOrder] = React.useState(
+    (router.query.order as TOrder) || "asc"
+  );
+
+  // TODO: poprawic
+  React.useEffect(() => {
+    if (router.query.sortBy) {
+      setSortBy(router.query.sortBy as TSortBy);
+    }
+  }, [router.query.sortBy]);
+
+  const handleChangeOrder = (): void => {
+    const newOrder = order === "asc" ? "desc" : "asc";
+    setOrder(newOrder);
+    router.push(
+      {
+        query: { ...router.query, order },
+      },
+      undefined,
+      { shallow: true }
+    );
+  };
+
+  const handleSortBy = (e: React.SyntheticEvent<HTMLSelectElement>): void => {
+    const newSortBy = (e.target as HTMLSelectElement).value as TSortBy;
+
+    setSortBy(newSortBy);
+    router.push(
+      {
+        query: { ...router.query, sortBy: newSortBy },
+      },
+      undefined,
+      { shallow: true }
+    );
+  };
 
   const handleOpenFilters = (): void => {
     setFiltersOpen(true);
@@ -123,7 +112,12 @@ const PremiumPhotos: React.FC = () => {
     <Layout>
       <Header>
         <StyledSectionHeader label="Photography" sublabel="Premium Photos" />
-        <StyledSortBy options={[]} />
+        <StyledSortBy
+          value={sortBy}
+          onChangeOrder={handleChangeOrder}
+          onChangeSortBy={handleSortBy}
+          options={sortByOptions}
+        />
         <FilterIconWrapperMobile onClick={handleOpenFilters}>
           <FiltersIcon />
         </FilterIconWrapperMobile>
@@ -137,8 +131,8 @@ const PremiumPhotos: React.FC = () => {
         <FiltersMenu title="Price range" options={MOCKED_DATA.priceRange} />
       </FiltersMenuContainer>
       <PhotoGrid>
-        {MOCKED_DATA.products.map((product) => (
-          <Product key={product.title} {...product} />
+        {getSortedProducts({ products, sortBy, order }).map((product) => (
+          <Product key={product.id} product={product} />
         ))}
       </PhotoGrid>
       <Pagination currentPage={1} limit={6} count={18} />
@@ -180,7 +174,7 @@ const PhotoGrid = styled.div`
   }
 `;
 
-const StyledSortBy = styled(SortBy)`
+const StyledSortBy = styled(SortByComponent)`
   grid-area: sorting;
   justify-self: end;
   align-self: center;
