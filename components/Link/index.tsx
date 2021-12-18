@@ -1,7 +1,15 @@
 import React from "react";
 import NextLink, { LinkProps as NextLinkProps } from "next/link";
 
-const Link: React.FC<NextLinkProps> = ({ children, ...rest }) => {
+interface LinkProps extends NextLinkProps {
+  disabled?: boolean;
+}
+
+const Link: React.FC<LinkProps> = ({ children, disabled, ...rest }) => {
+  if (disabled) {
+    return <span>{children}</span>;
+  }
+
   return (
     <NextLink {...rest}>
       <a>{children}</a>

@@ -1679,23 +1679,28 @@ export type Uuid_Comparison_Exp = {
   _nin?: InputMaybe<Array<Scalars['uuid']>>;
 };
 
-export type ProductFragment = { __typename?: 'product', bestseller: boolean, category_id: any, currency: string, description: string, featured: boolean, id: any, name: string, price: any, image: { __typename?: 'image', alt: string, height: number, id: any, size: any, src: string, width: number } };
+export type ProductFragment = { __typename?: 'product', id: any, name: string, price: any, bestseller: boolean, description: string, image: { __typename?: 'image', alt: string, height: number, id: any, size: any, src: string, width: number }, category: { __typename?: 'category', id: any, name: string } };
 
 export type ProductsQueryQueryVariables = Exact<{
-  order_by?: InputMaybe<Array<Product_Order_By> | Product_Order_By>;
+  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']>;
 }>;
 
 
-export type ProductsQueryQuery = { __typename?: 'query_root', products: { __typename?: 'product_aggregate', nodes: Array<{ __typename?: 'product', bestseller: boolean, category_id: any, currency: string, description: string, featured: boolean, id: any, name: string, price: any, image: { __typename?: 'image', alt: string, height: number, id: any, size: any, src: string, width: number } }> }, featuredProduct: Array<{ __typename?: 'product', bestseller: boolean, category_id: any, currency: string, description: string, featured: boolean, id: any, name: string, price: any, recommendeds: Array<{ __typename?: 'recommended', productByRecommendedProductId: { __typename?: 'product', id: any, name: string, image: { __typename?: 'image', alt: string, height: number, id: any, size: any, src: string, width: number } } }>, image: { __typename?: 'image', alt: string, height: number, id: any, size: any, src: string, width: number } }> };
+export type ProductsQueryQuery = { __typename?: 'query_root', products: { __typename?: 'product_aggregate', nodes: Array<{ __typename?: 'product', id: any, name: string, price: any, bestseller: boolean, description: string, image: { __typename?: 'image', alt: string, height: number, id: any, size: any, src: string, width: number }, category: { __typename?: 'category', id: any, name: string } }>, aggregate?: { __typename?: 'product_aggregate_fields', count: number } | null | undefined }, featuredProduct: Array<{ __typename?: 'product', id: any, name: string, price: any, bestseller: boolean, description: string, recommendeds: Array<{ __typename?: 'recommended', productByRecommendedProductId: { __typename?: 'product', id: any, name: string, image: { __typename?: 'image', alt: string, height: number, id: any, size: any, src: string, width: number } } }>, image: { __typename?: 'image', alt: string, height: number, id: any, size: any, src: string, width: number }, category: { __typename?: 'category', id: any, name: string } }> };
+
+export type ProductsCountQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ProductsCountQuery = { __typename?: 'query_root', products: { __typename?: 'product_aggregate', aggregate?: { __typename?: 'product_aggregate_fields', count: number } | null | undefined } };
 
 export const ProductFragmentDoc = gql`
     fragment product on product {
-  bestseller
-  category_id
-  currency
-  description
-  featured
   id
+  name
+  price
+  bestseller
+  description
   image {
     alt
     height
@@ -1704,15 +1709,20 @@ export const ProductFragmentDoc = gql`
     src
     width
   }
-  name
-  price
+  category {
+    id
+    name
+  }
 }
     `;
 export const ProductsQueryDocument = gql`
-    query ProductsQuery($order_by: [product_order_by!] = {}) {
-  products(order_by: $order_by) {
+    query ProductsQuery($offset: Int = 0, $limit: Int = 6) {
+  products(limit: $limit, offset: $offset) {
     nodes {
       ...product
+    }
+    aggregate {
+      count
     }
   }
   featuredProduct: product(where: {featured: {_eq: true}}, limit: 1) {
@@ -1747,7 +1757,8 @@ export const ProductsQueryDocument = gql`
  * @example
  * const { data, loading, error } = useProductsQueryQuery({
  *   variables: {
- *      order_by: // value for 'order_by'
+ *      offset: // value for 'offset'
+ *      limit: // value for 'limit'
  *   },
  * });
  */
@@ -1762,3 +1773,39 @@ export function useProductsQueryLazyQuery(baseOptions?: Apollo.LazyQueryHookOpti
 export type ProductsQueryQueryHookResult = ReturnType<typeof useProductsQueryQuery>;
 export type ProductsQueryLazyQueryHookResult = ReturnType<typeof useProductsQueryLazyQuery>;
 export type ProductsQueryQueryResult = Apollo.QueryResult<ProductsQueryQuery, ProductsQueryQueryVariables>;
+export const ProductsCountDocument = gql`
+    query ProductsCount {
+  products {
+    aggregate {
+      count
+    }
+  }
+}
+    `;
+
+/**
+ * __useProductsCountQuery__
+ *
+ * To run a query within a React component, call `useProductsCountQuery` and pass it any options that fit your needs.
+ * When your component renders, `useProductsCountQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useProductsCountQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useProductsCountQuery(baseOptions?: Apollo.QueryHookOptions<ProductsCountQuery, ProductsCountQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ProductsCountQuery, ProductsCountQueryVariables>(ProductsCountDocument, options);
+      }
+export function useProductsCountLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ProductsCountQuery, ProductsCountQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ProductsCountQuery, ProductsCountQueryVariables>(ProductsCountDocument, options);
+        }
+export type ProductsCountQueryHookResult = ReturnType<typeof useProductsCountQuery>;
+export type ProductsCountLazyQueryHookResult = ReturnType<typeof useProductsCountLazyQuery>;
+export type ProductsCountQueryResult = Apollo.QueryResult<ProductsCountQuery, ProductsCountQueryVariables>;

@@ -7,14 +7,14 @@ import {
 } from "~/store/slices/cart-slice";
 import { getIsCartOpen } from "~/store/selectors/getIsCartOpen";
 
-interface UseCart {
+interface IUseCart {
   handleOpenCart: () => void;
   handleCloseCart: () => void;
   handleClear: () => void;
   handleToggleCart: () => void;
 }
 
-export const useCart = (): UseCart => {
+export const useCart = (): IUseCart => {
   const dispatch = useAppDispatch();
   const isOpen = useAppSelector(getIsCartOpen);
 
