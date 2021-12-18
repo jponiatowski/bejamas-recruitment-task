@@ -8,15 +8,20 @@ import { FeaturedProduct, Product } from "types/api";
 export interface IndexPageProps {
   featuredProduct: FeaturedProduct[];
   products: Product[];
+  productsCount?: number;
 }
 
-const IndexPage: React.FC<IndexPageProps> = ({ featuredProduct, products }) => {
+const IndexPage: React.FC<IndexPageProps> = ({
+  featuredProduct,
+  products,
+  productsCount,
+}) => {
   return (
     <Main>
       {featuredProduct.length ? (
         <FeaturedProductSection featuredProduct={featuredProduct[0]} />
       ) : null}
-      <PremiumPhotosSection products={products} />
+      <PremiumPhotosSection products={products} productsCount={productsCount} />
     </Main>
   );
 };

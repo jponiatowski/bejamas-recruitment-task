@@ -49,9 +49,9 @@ const Product: React.FC<ProductProps> = ({ product }) => {
           </StyledButton>
         }
       </Photo>
-      <Category>{"category"}</Category>
+      <Category>{category.name}</Category>
       <Title>{name}</Title>
-      <Price>{price}</Price>
+      <Price>{`$${price}`}</Price>
     </ProductContainer>
   );
 };
@@ -84,6 +84,11 @@ const StyledButton = styled(Button)<{ show: boolean }>`
           height: 0px;
           padding: 0px;
         `};
+
+  @media (max-width: ${(p) => p.theme.breakpoints.mobile}) {
+    height: fit-content;
+    padding: 13px 39px;
+  }
 `;
 
 const BestSeller = styled.div`

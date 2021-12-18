@@ -2,10 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import NextImage from "next/image";
 
-import { FeaturedProductQuery } from "types/hasura";
+import { FeaturedProduct } from "types/api";
 
 interface RecommendedProducts {
-  recommendedProducts: FeaturedProductQuery["product"][number]["recommendeds"];
+  recommendedProducts: FeaturedProduct["recommendeds"];
 }
 
 export const RecommendedProducts: React.FC<RecommendedProducts> = ({

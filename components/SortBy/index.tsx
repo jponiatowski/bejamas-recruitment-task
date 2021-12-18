@@ -2,9 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 import SortIcon from "icons/Sort";
-import ArrowIcon from "icons/Arrow";
 import { TSortBy } from "~/utils/getSortedData";
-
 interface SortByProps {
   value: TSortBy;
   options: {
@@ -44,10 +42,6 @@ const SortBy: React.FC<SortByProps> = ({
           </Option>
         ))}
       </Select>
-      {/* TODO: clickable arrow */}
-      <ArrowIconWrapper>
-        <ArrowIcon />
-      </ArrowIconWrapper>
     </Flex>
   );
 };
@@ -57,9 +51,13 @@ const Select = styled.select`
   cursor: pointer;
   font-size: 22px;
   line-height: 24px;
-  width: fit-content;
   appearance: none;
   margin-right: 13px;
+  background-position: right 5px top 50%;
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMTMiIHZpZXdCb3g9IjAgMCAyMCAxMyIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMiAyTDEwIDEwTDE4IDIiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMyIvPjwvc3ZnPgo=");
+  background-repeat: no-repeat;
+  min-width: 155px;
+  width: auto;
 
   &:focus-visible {
     outline: none;

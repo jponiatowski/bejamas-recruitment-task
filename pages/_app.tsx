@@ -10,13 +10,10 @@ import { store } from "~/store/store";
 import Header from "components/Header";
 import { GlobalStyles } from "components/GlobalStyles";
 import client from "data/apollo-client";
-import { useApollo } from "data/apollo";
 
 let persistor = persistStore(store);
 
 function MyApp({ Component, pageProps }: AppProps) {
-  // const apolloClient = useApollo(pageProps.initialApolloState);
-
   return (
     <>
       <ApolloProvider client={client}>

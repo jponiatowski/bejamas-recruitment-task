@@ -12,6 +12,7 @@ import { lockPageScroll } from "utils/lockPageScroll";
 import { unlockPageScroll } from "utils/unlockPageScroll";
 import { Product as ProductType } from "types/api";
 import { getSortedProducts, TSortBy, TOrder } from "~/utils/getSortedData";
+import { usePagination } from "~/hooks/usePagination";
 
 const MOCKED_DATA = {
   category: [
@@ -50,10 +51,15 @@ const sortByOptions = [
 
 interface PremiumPhotosProps {
   products: ProductType[];
+  productsCount?: number;
 }
 
-const PremiumPhotos: React.FC<PremiumPhotosProps> = ({ products }) => {
+const PremiumPhotos: React.FC<PremiumPhotosProps> = ({
+  products,
+  productsCount,
+}) => {
   const router = useRouter();
+  const { getCurrentPage, getLimit } = usePagination();
   const [filtersOpen, setFiltersOpen] = React.useState(false);
   const [sortBy, setSortBy] = React.useState(
     (router.query.sortBy as TSortBy) || "price"
@@ -135,7 +141,11 @@ const PremiumPhotos: React.FC<PremiumPhotosProps> = ({ products }) => {
           <Product key={product.id} product={product} />
         ))}
       </PhotoGrid>
-      <Pagination currentPage={1} limit={6} count={18} />
+      <Pagination
+        currentPage={getCurrentPage()}
+        limit={getLimit()}
+        count={productsCount || 0}
+      />
     </Layout>
   );
 };

@@ -1,10 +1,9 @@
 fragment product on product {
-  bestseller
-  category_id
-  currency
-  description
-  featured
   id
+  name
+  price
+  bestseller
+  description
   image {
     alt
     height
@@ -13,14 +12,19 @@ fragment product on product {
     src
     width
   }
-  name
-  price
+  category {
+    id
+    name
+  }
 }
 
-query ProductsQuery($order_by: [product_order_by!] = {}) {
-  products(order_by: $order_by) {
+query ProductsQuery($offset: Int = 0, $limit: Int = 6) {
+  products(limit: $limit, offset: $offset) {
     nodes {
       ...product
+    }
+    aggregate {
+      count
     }
   }
   featuredProduct: product(where: { featured: { _eq: true } }, limit: 1) {

@@ -45,7 +45,7 @@ const Cart: React.FC = () => {
               </Product>
             ))
           ) : (
-            <NoProducts>Brak produktów w koszyku</NoProducts>
+            <NoProducts>There are no products in the car</NoProducts>
           )}
           <StyledButton
             disabled={!cartProducts.length}
