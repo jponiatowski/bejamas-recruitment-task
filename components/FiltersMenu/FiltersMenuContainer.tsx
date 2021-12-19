@@ -9,6 +9,7 @@ interface FiltersMenuContainerProps {
   isOpen: boolean;
   onClose: () => void;
   onSubmit: () => void;
+  onClear: () => void;
 }
 
 const BUTTONS_CONTAINER_HEIGHT = 111;
@@ -18,7 +19,19 @@ export const FiltersMenuContainer: React.FC<FiltersMenuContainerProps> = ({
   isOpen,
   onClose,
   onSubmit,
+  onClear,
 }) => {
+  const handleSubmit = () => {
+    onSubmit();
+    onClose();
+  };
+
+  const hadnleClear = () => {
+    onClear();
+    onSubmit();
+    onClose();
+  };
+
   return (
     <>
       <FiltersMenuContainerCompoenet isOpen={isOpen}>
@@ -32,8 +45,10 @@ export const FiltersMenuContainer: React.FC<FiltersMenuContainerProps> = ({
           {children}
         </Test>
         <ButtonsContainer isOpen={isOpen}>
-          <Button variant="secondary">Clear</Button>
-          <Button onClick={onSubmit}>Save</Button>
+          <Button onClick={hadnleClear} variant="secondary">
+            Clear
+          </Button>
+          <Button onClick={handleSubmit}>Save</Button>
         </ButtonsContainer>
       </FiltersMenuContainerCompoenet>
     </>

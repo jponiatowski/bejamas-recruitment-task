@@ -85,6 +85,7 @@ export type Category = {
   products: Array<Product>;
   /** An aggregate relationship */
   products_aggregate: Product_Aggregate;
+  slug: Scalars['String'];
 };
 
 
@@ -137,6 +138,7 @@ export type Category_Bool_Exp = {
   id?: InputMaybe<Uuid_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
   products?: InputMaybe<Product_Bool_Exp>;
+  slug?: InputMaybe<String_Comparison_Exp>;
 };
 
 /** unique or primary key constraints on table "category" */
@@ -150,6 +152,7 @@ export type Category_Insert_Input = {
   id?: InputMaybe<Scalars['uuid']>;
   name?: InputMaybe<Scalars['String']>;
   products?: InputMaybe<Product_Arr_Rel_Insert_Input>;
+  slug?: InputMaybe<Scalars['String']>;
 };
 
 /** aggregate max on columns */
@@ -157,6 +160,7 @@ export type Category_Max_Fields = {
   __typename?: 'category_max_fields';
   id?: Maybe<Scalars['uuid']>;
   name?: Maybe<Scalars['String']>;
+  slug?: Maybe<Scalars['String']>;
 };
 
 /** aggregate min on columns */
@@ -164,6 +168,7 @@ export type Category_Min_Fields = {
   __typename?: 'category_min_fields';
   id?: Maybe<Scalars['uuid']>;
   name?: Maybe<Scalars['String']>;
+  slug?: Maybe<Scalars['String']>;
 };
 
 /** response of any mutation on the table "category" */
@@ -194,6 +199,7 @@ export type Category_Order_By = {
   id?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
   products_aggregate?: InputMaybe<Product_Aggregate_Order_By>;
+  slug?: InputMaybe<Order_By>;
 };
 
 /** primary key columns input for table: category */
@@ -206,13 +212,16 @@ export enum Category_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
-  Name = 'name'
+  Name = 'name',
+  /** column name */
+  Slug = 'slug'
 }
 
 /** input type for updating data in table "category" */
 export type Category_Set_Input = {
   id?: InputMaybe<Scalars['uuid']>;
   name?: InputMaybe<Scalars['String']>;
+  slug?: InputMaybe<Scalars['String']>;
 };
 
 /** update columns of table "category" */
@@ -220,7 +229,9 @@ export enum Category_Update_Column {
   /** column name */
   Id = 'id',
   /** column name */
-  Name = 'name'
+  Name = 'name',
+  /** column name */
+  Slug = 'slug'
 }
 
 /** columns and relationships of "image" */
@@ -1679,17 +1690,25 @@ export type Uuid_Comparison_Exp = {
   _nin?: InputMaybe<Array<Scalars['uuid']>>;
 };
 
+export type CategoriesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CategoriesQuery = { __typename?: 'query_root', categories: { __typename?: 'category_aggregate', nodes: Array<{ __typename?: 'category', id: any, name: string, slug: string }> } };
+
 export type ProductFragment = { __typename?: 'product', id: any, name: string, price: any, bestseller: boolean, description: string, image: { __typename?: 'image', alt: string, height: number, id: any, size: any, src: string, width: number }, category: { __typename?: 'category', id: any, name: string } };
 
-export type ProductsQueryQueryVariables = Exact<{
+export type ProductsQueryVariables = Exact<{
   offset?: InputMaybe<Scalars['Int']>;
   limit?: InputMaybe<Scalars['Int']>;
+  categories?: InputMaybe<Array<Scalars['String']> | Scalars['String']>;
 }>;
 
 
-export type ProductsQueryQuery = { __typename?: 'query_root', products: { __typename?: 'product_aggregate', nodes: Array<{ __typename?: 'product', id: any, name: string, price: any, bestseller: boolean, description: string, image: { __typename?: 'image', alt: string, height: number, id: any, size: any, src: string, width: number }, category: { __typename?: 'category', id: any, name: string } }>, aggregate?: { __typename?: 'product_aggregate_fields', count: number } | null | undefined }, featuredProduct: Array<{ __typename?: 'product', id: any, name: string, price: any, bestseller: boolean, description: string, recommendeds: Array<{ __typename?: 'recommended', productByRecommendedProductId: { __typename?: 'product', id: any, name: string, image: { __typename?: 'image', alt: string, height: number, id: any, size: any, src: string, width: number } } }>, image: { __typename?: 'image', alt: string, height: number, id: any, size: any, src: string, width: number }, category: { __typename?: 'category', id: any, name: string } }> };
+export type ProductsQuery = { __typename?: 'query_root', products: { __typename?: 'product_aggregate', nodes: Array<{ __typename?: 'product', id: any, name: string, price: any, bestseller: boolean, description: string, image: { __typename?: 'image', alt: string, height: number, id: any, size: any, src: string, width: number }, category: { __typename?: 'category', id: any, name: string } }>, aggregate?: { __typename?: 'product_aggregate_fields', count: number } | null | undefined }, featuredProduct: Array<{ __typename?: 'product', id: any, name: string, price: any, bestseller: boolean, description: string, recommendeds: Array<{ __typename?: 'recommended', productByRecommendedProductId: { __typename?: 'product', id: any, name: string, image: { __typename?: 'image', alt: string, height: number, id: any, size: any, src: string, width: number } } }>, image: { __typename?: 'image', alt: string, height: number, id: any, size: any, src: string, width: number }, category: { __typename?: 'category', id: any, name: string } }> };
 
-export type ProductsCountQueryVariables = Exact<{ [key: string]: never; }>;
+export type ProductsCountQueryVariables = Exact<{
+  categories?: InputMaybe<Array<Scalars['String']> | Scalars['String']>;
+}>;
 
 
 export type ProductsCountQuery = { __typename?: 'query_root', products: { __typename?: 'product_aggregate', aggregate?: { __typename?: 'product_aggregate_fields', count: number } | null | undefined } };
@@ -1715,9 +1734,51 @@ export const ProductFragmentDoc = gql`
   }
 }
     `;
-export const ProductsQueryDocument = gql`
-    query ProductsQuery($offset: Int = 0, $limit: Int = 6) {
-  products(limit: $limit, offset: $offset) {
+export const CategoriesDocument = gql`
+    query Categories {
+  categories(distinct_on: slug) {
+    nodes {
+      id
+      name
+      slug
+    }
+  }
+}
+    `;
+
+/**
+ * __useCategoriesQuery__
+ *
+ * To run a query within a React component, call `useCategoriesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCategoriesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCategoriesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useCategoriesQuery(baseOptions?: Apollo.QueryHookOptions<CategoriesQuery, CategoriesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CategoriesQuery, CategoriesQueryVariables>(CategoriesDocument, options);
+      }
+export function useCategoriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CategoriesQuery, CategoriesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CategoriesQuery, CategoriesQueryVariables>(CategoriesDocument, options);
+        }
+export type CategoriesQueryHookResult = ReturnType<typeof useCategoriesQuery>;
+export type CategoriesLazyQueryHookResult = ReturnType<typeof useCategoriesLazyQuery>;
+export type CategoriesQueryResult = Apollo.QueryResult<CategoriesQuery, CategoriesQueryVariables>;
+export const ProductsDocument = gql`
+    query Products($offset: Int = 0, $limit: Int = 6, $categories: [String!] = "") {
+  products(
+    limit: $limit
+    offset: $offset
+    where: {category: {slug: {_in: $categories}}}
+  ) {
     nodes {
       ...product
     }
@@ -1746,36 +1807,37 @@ export const ProductsQueryDocument = gql`
     ${ProductFragmentDoc}`;
 
 /**
- * __useProductsQueryQuery__
+ * __useProductsQuery__
  *
- * To run a query within a React component, call `useProductsQueryQuery` and pass it any options that fit your needs.
- * When your component renders, `useProductsQueryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useProductsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useProductsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useProductsQueryQuery({
+ * const { data, loading, error } = useProductsQuery({
  *   variables: {
  *      offset: // value for 'offset'
  *      limit: // value for 'limit'
+ *      categories: // value for 'categories'
  *   },
  * });
  */
-export function useProductsQueryQuery(baseOptions?: Apollo.QueryHookOptions<ProductsQueryQuery, ProductsQueryQueryVariables>) {
+export function useProductsQuery(baseOptions?: Apollo.QueryHookOptions<ProductsQuery, ProductsQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<ProductsQueryQuery, ProductsQueryQueryVariables>(ProductsQueryDocument, options);
+        return Apollo.useQuery<ProductsQuery, ProductsQueryVariables>(ProductsDocument, options);
       }
-export function useProductsQueryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ProductsQueryQuery, ProductsQueryQueryVariables>) {
+export function useProductsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ProductsQuery, ProductsQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<ProductsQueryQuery, ProductsQueryQueryVariables>(ProductsQueryDocument, options);
+          return Apollo.useLazyQuery<ProductsQuery, ProductsQueryVariables>(ProductsDocument, options);
         }
-export type ProductsQueryQueryHookResult = ReturnType<typeof useProductsQueryQuery>;
-export type ProductsQueryLazyQueryHookResult = ReturnType<typeof useProductsQueryLazyQuery>;
-export type ProductsQueryQueryResult = Apollo.QueryResult<ProductsQueryQuery, ProductsQueryQueryVariables>;
+export type ProductsQueryHookResult = ReturnType<typeof useProductsQuery>;
+export type ProductsLazyQueryHookResult = ReturnType<typeof useProductsLazyQuery>;
+export type ProductsQueryResult = Apollo.QueryResult<ProductsQuery, ProductsQueryVariables>;
 export const ProductsCountDocument = gql`
-    query ProductsCount {
-  products {
+    query ProductsCount($categories: [String!]) {
+  products(where: {category: {slug: {_in: $categories}}}) {
     aggregate {
       count
     }
@@ -1795,6 +1857,7 @@ export const ProductsCountDocument = gql`
  * @example
  * const { data, loading, error } = useProductsCountQuery({
  *   variables: {
+ *      categories: // value for 'categories'
  *   },
  * });
  */

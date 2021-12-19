@@ -18,8 +18,12 @@ fragment product on product {
   }
 }
 
-query ProductsQuery($offset: Int = 0, $limit: Int = 6) {
-  products(limit: $limit, offset: $offset) {
+query Products($offset: Int = 0, $limit: Int = 6, $categories: [String!] = "") {
+  products(
+    limit: $limit
+    offset: $offset
+    where: { category: { slug: { _in: $categories } } }
+  ) {
     nodes {
       ...product
     }

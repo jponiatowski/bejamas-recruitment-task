@@ -1,5 +1,5 @@
-query ProductsCount {
-  products {
+query ProductsCount($categories: [String!]) {
+  products(where: { category: { slug: { _in: $categories } } }) {
     aggregate {
       count
     }
