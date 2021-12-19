@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { useRouter } from "next/router";
 
 import FiltersIcon from "icons/Filters";
 import SectionHeader from "components/SectionHeader";
@@ -10,20 +9,11 @@ import Product from "components/Product";
 import Pagination from "components/Pagination";
 import { lockPageScroll } from "utils/lockPageScroll";
 import { unlockPageScroll } from "utils/unlockPageScroll";
-import { Product as ProductType } from "types/api";
-import { getSortedProducts, TSortBy, TOrder } from "~/utils/getSortedData";
-import { usePagination } from "~/hooks/usePagination";
+import { Categories, Product as ProductType } from "types/api";
+import { useSortBy } from "~/hooks/useSortBy";
+import { useFilterCategories } from "~/hooks/useFilterCategories";
 
 const MOCKED_DATA = {
-  category: [
-    { label: "People", value: "People" },
-    { label: "Premium", value: "Premium" },
-    { label: "Pets", value: "Pets" },
-    { label: "Food", value: "Food" },
-    { label: "Landmarks", value: "Landmarks" },
-    { label: "Cities", value: "Cities" },
-    { label: "Nature", value: "Nature" },
-  ],
   priceRange: [
     {
       label: "Lower than $20",
@@ -51,54 +41,24 @@ const sortByOptions = [
 
 interface PremiumPhotosProps {
   products: ProductType[];
+  categories: Categories;
   productsCount?: number;
 }
 
 const PremiumPhotos: React.FC<PremiumPhotosProps> = ({
   products,
   productsCount,
+  categories,
 }) => {
-  const router = useRouter();
-  const { getCurrentPage, getLimit } = usePagination();
+  const { sortedProducts, sortBy, handleChangeOrder, handleSortBy } =
+    useSortBy(products);
+  const {
+    categories: categoriesFilters,
+    handleToggleCategory,
+    handleSubmitCategories,
+    handleClearCategories,
+  } = useFilterCategories();
   const [filtersOpen, setFiltersOpen] = React.useState(false);
-  const [sortBy, setSortBy] = React.useState(
-    (router.query.sortBy as TSortBy) || "price"
-  );
-  const [order, setOrder] = React.useState(
-    (router.query.order as TOrder) || "asc"
-  );
-
-  // TODO: poprawic
-  React.useEffect(() => {
-    if (router.query.sortBy) {
-      setSortBy(router.query.sortBy as TSortBy);
-    }
-  }, [router.query.sortBy]);
-
-  const handleChangeOrder = (): void => {
-    const newOrder = order === "asc" ? "desc" : "asc";
-    setOrder(newOrder);
-    router.push(
-      {
-        query: { ...router.query, order },
-      },
-      undefined,
-      { shallow: true }
-    );
-  };
-
-  const handleSortBy = (e: React.SyntheticEvent<HTMLSelectElement>): void => {
-    const newSortBy = (e.target as HTMLSelectElement).value as TSortBy;
-
-    setSortBy(newSortBy);
-    router.push(
-      {
-        query: { ...router.query, sortBy: newSortBy },
-      },
-      undefined,
-      { shallow: true }
-    );
-  };
 
   const handleOpenFilters = (): void => {
     setFiltersOpen(true);
@@ -111,7 +71,7 @@ const PremiumPhotos: React.FC<PremiumPhotosProps> = ({
   };
 
   const handleSubmit = (): void => {
-    console.log("submit");
+    handleSubmitCategories();
   };
 
   return (
@@ -131,21 +91,30 @@ const PremiumPhotos: React.FC<PremiumPhotosProps> = ({
       <FiltersMenuContainer
         onSubmit={handleSubmit}
         onClose={handleCloseFilters}
+        onClear={handleClearCategories}
         isOpen={filtersOpen}
       >
-        <FiltersMenu title="Category" options={MOCKED_DATA.category} />
-        <FiltersMenu title="Price range" options={MOCKED_DATA.priceRange} />
+        <FiltersMenu
+          title="Category"
+          values={categoriesFilters}
+          options={categories.map(({ slug, name }) => ({
+            value: slug,
+            label: name,
+          }))}
+          onChange={handleToggleCategory}
+        />
+        <FiltersMenu
+          title="Price range"
+          values={[]}
+          options={MOCKED_DATA.priceRange}
+        />
       </FiltersMenuContainer>
       <PhotoGrid>
-        {getSortedProducts({ products, sortBy, order }).map((product) => (
+        {sortedProducts.map((product) => (
           <Product key={product.id} product={product} />
         ))}
       </PhotoGrid>
-      <Pagination
-        currentPage={getCurrentPage()}
-        limit={getLimit()}
-        count={productsCount || 0}
-      />
+      <Pagination count={productsCount || 0} />
     </Layout>
   );
 };

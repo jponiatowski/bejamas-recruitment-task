@@ -1,0 +1,9 @@
+query Categories {
+  categories(distinct_on: slug) {
+    nodes {
+      id
+      name
+      slug
+    }
+  }
+}

@@ -5,11 +5,12 @@ import CheckIcon from "icons/Check";
 
 interface CheckboxProps {
   checked: boolean;
+  onClick: () => void;
 }
 
-const Checkbox: React.FC<CheckboxProps> = ({ checked }) => {
+const Checkbox: React.FC<CheckboxProps> = ({ checked, onClick }) => {
   return (
-    <Box>
+    <Box onClick={onClick}>
       {checked && (
         <CheckIconWrapper>
           <CheckIcon />

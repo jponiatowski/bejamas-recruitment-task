@@ -3,17 +3,19 @@ import styled from "styled-components";
 
 import FeaturedProductSection from "views/IndexPage/Sections/FeaturedProduct";
 import PremiumPhotosSection from "views/IndexPage/Sections/PremiumPhotos";
-import { FeaturedProduct, Product } from "types/api";
+import { Categories, FeaturedProduct, Product } from "types/api";
 
 export interface IndexPageProps {
   featuredProduct: FeaturedProduct[];
   products: Product[];
+  categories: Categories;
   productsCount?: number;
 }
 
 const IndexPage: React.FC<IndexPageProps> = ({
   featuredProduct,
   products,
+  categories,
   productsCount,
 }) => {
   return (
@@ -21,7 +23,11 @@ const IndexPage: React.FC<IndexPageProps> = ({
       {featuredProduct.length ? (
         <FeaturedProductSection featuredProduct={featuredProduct[0]} />
       ) : null}
-      <PremiumPhotosSection products={products} productsCount={productsCount} />
+      <PremiumPhotosSection
+        categories={categories}
+        products={products}
+        productsCount={productsCount}
+      />
     </Main>
   );
 };

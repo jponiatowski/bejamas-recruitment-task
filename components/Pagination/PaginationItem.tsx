@@ -1,19 +1,24 @@
 import React from "react";
 import styled from "styled-components";
 
-import Link from "~/components/Link";
-
 interface PaginationItemProps {
   active?: boolean;
   page: number;
+  onPageChange: (page: number) => void;
 }
 
-const PaginationItem: React.FC<PaginationItemProps> = ({ active, page }) => {
+const PaginationItem: React.FC<PaginationItemProps> = ({
+  active,
+  page,
+  onPageChange,
+}) => {
+  const handlePageChange = () => {
+    onPageChange(page);
+  };
+
   return (
-    <PaginationItemComponent active={active}>
-      <Link disabled={active} href={`/page/${page}`} scroll={false}>
-        {page}
-      </Link>
+    <PaginationItemComponent active={active} onClick={handlePageChange}>
+      {page}
     </PaginationItemComponent>
   );
 };

@@ -1,36 +1,27 @@
 import type { NextPage, GetStaticProps } from "next";
 import Head from "next/head";
 
-import client from "data/apollo-client";
-import IndexPageView from "views/IndexPage";
-import PRODUCTS_QUERY from "graphql/products.gql";
-import PRODUCTS_COUNT_QUERY from "~/graphql/productsCount.gql";
-import { Product, FeaturedProduct } from "types/api";
-import {
-  ProductsQueryQuery as ProductsQuery,
-  ProductsCountQuery,
-} from "~/types/hasura";
+import { fetchProductsCount, fetchProducts, fetchCategories } from "~/data/";
+import IndexPageView from "~/views/IndexPage";
+import { Product, FeaturedProduct, Categories } from "~/types/api";
 import { limits } from "~/constants/limits";
 
-export const getStaticProps: GetStaticProps = async () => {
-  const { data: productsCount } = await client.query<ProductsCountQuery>({
-    query: PRODUCTS_COUNT_QUERY,
+export const getStaticProps: GetStaticProps<HomeProps> = async () => {
+  const categories = await fetchCategories();
+  const productsCount = await fetchProductsCount({
+    categories: categories.map(({ slug }) => slug),
+  });
+  const { products, featuredProduct } = await fetchProducts({
+    limit: limits.PRODUCTS_PER_PAGE,
+    categories: categories.map(({ slug }) => slug),
   });
 
-  const { data } = await client.query<{
-    products: ProductsQuery["products"];
-    featuredProduct: ProductsQuery["featuredProduct"];
-  }>({
-    query: PRODUCTS_QUERY,
-    variables: {
-      limit: limits.PRODUCTS_PER_PAGE,
-    },
-  });
   return {
     props: {
-      productsCount: productsCount.products.aggregate?.count,
-      products: data.products.nodes,
-      featuredProduct: data.featuredProduct,
+      productsCount,
+      products,
+      featuredProduct,
+      categories,
     },
     revalidate: 60,
   };
@@ -39,6 +30,7 @@ export const getStaticProps: GetStaticProps = async () => {
 export interface HomeProps {
   featuredProduct: FeaturedProduct[];
   products: Product[];
+  categories: Categories;
   productsCount?: number;
 }
 

@@ -5,12 +5,10 @@ import { useRouter } from "next/router";
 
 import PaginationItem from "components/Pagination/PaginationItem";
 import ArrowIcon from "icons/Arrow";
-import Link from "~/components/Link";
+import usePagination from "~/hooks/usePagination";
 
 interface PaginationProps {
   count: number;
-  limit: number;
-  currentPage: number;
 }
 
 interface ArrowIconWrapperProps {
@@ -18,75 +16,40 @@ interface ArrowIconWrapperProps {
   isLastPage?: boolean;
 }
 
-const Pagination: React.FC<PaginationProps> = ({
-  count,
-  limit,
-  currentPage,
-}) => {
-  const router = useRouter();
-  const pagesCount = React.useMemo(
-    () => Math.ceil(count / limit),
-    [count, limit]
-  );
-  const [isFirstPage, setIsFirstPage] = React.useState(currentPage === 1);
-  const [isLastPage, setIsLastPage] = React.useState(
-    currentPage === pagesCount
-  );
-  console.log(currentPage, isFirstPage);
+const Pagination: React.FC<PaginationProps> = ({ count }) => {
+  const {
+    pages,
+    limit,
+    currentPage,
+    isFirstPage,
+    isLastPage,
+    handlePageChange,
+    handleGoToNextPage,
+    handleGoToPreviousPage,
+  } = usePagination(count);
 
-  React.useEffect(() => {
-    setIsFirstPage(currentPage === 1);
-    setIsLastPage(currentPage === pagesCount);
-  }, [currentPage, pagesCount]);
-
-  if (limit >= count) {
+  if (count <= limit) {
     return null;
   }
 
-  const pages = range(1, pagesCount + 1);
-
-  const getPreviousPage = (): number => {
-    if (isFirstPage) {
-      return currentPage;
-    }
-
-    return currentPage - 1;
-  };
-
-  const getNextPage = (): number => {
-    if (isLastPage) {
-      return currentPage;
-    }
-
-    return currentPage + 1;
-  };
-
   return (
     <PaginationContainer>
-      <ArrowIconWrapper isFirstPage={isFirstPage}>
-        <Link
-          disabled={isFirstPage}
-          href={`/page/${getPreviousPage()}`}
-          scroll={false}
-        >
-          <ArrowIcon />
-        </Link>
+      <ArrowIconWrapper
+        isFirstPage={isFirstPage}
+        onClick={handleGoToPreviousPage}
+      >
+        <ArrowIcon />
       </ArrowIconWrapper>
       {pages.map((page, index) => (
         <PaginationItem
           key={page}
           active={currentPage === index + 1}
           page={page}
+          onPageChange={handlePageChange}
         />
       ))}
-      <ArrowIconWrapper isLastPage={currentPage === pagesCount}>
-        <Link
-          disabled={isLastPage}
-          href={`/page/${getNextPage()}`}
-          scroll={false}
-        >
-          <ArrowIcon />
-        </Link>
+      <ArrowIconWrapper isLastPage={isLastPage} onClick={handleGoToNextPage}>
+        <ArrowIcon />
       </ArrowIconWrapper>
     </PaginationContainer>
   );

@@ -1,4 +1,5 @@
-import { ProductFragment, ProductsQueryQuery } from "./hasura";
+import { ProductFragment, ProductsQuery, CategoriesQuery } from "./hasura";
 
 export type Product = ProductFragment;
-export type FeaturedProduct = ProductsQueryQuery["featuredProduct"][number];
+export type FeaturedProduct = ProductsQuery["featuredProduct"][number];
+export type Categories = CategoriesQuery["categories"]["nodes"];
