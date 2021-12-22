@@ -11,12 +11,16 @@ import Header from "components/Header";
 import { GlobalStyles } from "components/GlobalStyles";
 import client from "data/apollo-client";
 
+import { useApollo } from "~/data/client";
+
 let persistor = persistStore(store);
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const apolloClient = useApollo(pageProps);
+
   return (
     <>
-      <ApolloProvider client={client}>
+      <ApolloProvider client={apolloClient}>
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
             <ThemeProvider theme={theme}>

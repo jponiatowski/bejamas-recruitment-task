@@ -1,34 +1,21 @@
 import React from "react";
 import styled from "styled-components";
+import Head from "next/head";
 
 import FeaturedProductSection from "views/IndexPage/Sections/FeaturedProduct";
 import PremiumPhotosSection from "views/IndexPage/Sections/PremiumPhotos";
-import { Categories, FeaturedProduct, Product } from "types/api";
 
-export interface IndexPageProps {
-  featuredProduct: FeaturedProduct[];
-  products: Product[];
-  categories: Categories;
-  productsCount?: number;
-}
-
-const IndexPage: React.FC<IndexPageProps> = ({
-  featuredProduct,
-  products,
-  categories,
-  productsCount,
-}) => {
+const IndexPage: React.FC = () => {
   return (
-    <Main>
-      {featuredProduct.length ? (
-        <FeaturedProductSection featuredProduct={featuredProduct[0]} />
-      ) : null}
-      <PremiumPhotosSection
-        categories={categories}
-        products={products}
-        productsCount={productsCount}
-      />
-    </Main>
+    <>
+      <Head>
+        <title>Bejamas</title>
+      </Head>
+      <Main>
+        <FeaturedProductSection />
+        <PremiumPhotosSection />
+      </Main>
+    </>
   );
 };
 

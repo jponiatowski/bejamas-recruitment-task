@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { breakpoints } from "~/theme/breakpoints";
 
 export const useIsMobile = () => {
   const [width, setWidth] = useState(window.innerWidth);
@@ -14,5 +15,5 @@ export const useIsMobile = () => {
     };
   }, []);
 
-  return width <= 768;
+  return width <= Number(breakpoints.mobile.slice(0, -2));
 };

@@ -4,14 +4,21 @@ import { range } from "lodash";
 
 import { limits } from "~/constants/limits";
 
-export const usePagination = (productsCount: number) => {
+export const usePagination = ({
+  currentPage,
+  productsCount,
+  onPageChange,
+}: {
+  currentPage: number;
+  productsCount: number;
+  onPageChange: (page: number) => void;
+}) => {
   const pagesCount = useMemo(
     () => Math.ceil(productsCount / limits.PRODUCTS_PER_PAGE),
     [productsCount]
   );
 
   const router = useRouter();
-  const [currentPage, setCurrentPage] = useState(1);
   const [isFirstPage, setIsFirstPage] = useState(currentPage === 1);
   const [isLastPage, setIsLastPage] = useState(currentPage === pagesCount);
 
@@ -21,13 +28,6 @@ export const usePagination = (productsCount: number) => {
   }, [currentPage, pagesCount]);
 
   useEffect(() => {
-    if (!Object.keys(router.query).includes("page")) {
-      router.push(`/page/${currentPage}${router.asPath}`, undefined, {
-        scroll: false,
-      });
-      return;
-    }
-
     router.push(
       {
         query: {
@@ -36,31 +36,32 @@ export const usePagination = (productsCount: number) => {
         },
       },
       undefined,
-      { scroll: false }
+      { scroll: false, shallow: true }
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage]);
 
   const pages = range(1, pagesCount + 1);
   const limit = limits.PRODUCTS_PER_PAGE;
 
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
+  const pageChange = (page: number) => {
+    onPageChange(page);
   };
 
-  const handleGoToNextPage = () => {
+  const goToNextPage = () => {
     if (isLastPage) {
       return;
     }
 
-    setCurrentPage(currentPage + 1);
+    onPageChange(currentPage + 1);
   };
 
-  const handleGoToPreviousPage = () => {
+  const goToPreviousPage = () => {
     if (isFirstPage) {
       return;
     }
 
-    setCurrentPage(currentPage - 1);
+    onPageChange(currentPage - 1);
   };
 
   return {
@@ -70,9 +71,9 @@ export const usePagination = (productsCount: number) => {
     pagesCount,
     isFirstPage,
     isLastPage,
-    handlePageChange,
-    handleGoToPreviousPage,
-    handleGoToNextPage,
+    pageChange,
+    goToPreviousPage,
+    goToNextPage,
   };
 };
 

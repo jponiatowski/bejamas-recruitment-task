@@ -1,14 +1,15 @@
 import React from "react";
 import styled from "styled-components";
-import { range } from "lodash";
-import { useRouter } from "next/router";
 
 import PaginationItem from "components/Pagination/PaginationItem";
 import ArrowIcon from "icons/Arrow";
 import usePagination from "~/hooks/usePagination";
+import { limits } from "~/constants/limits";
 
 interface PaginationProps {
-  count: number;
+  currentPage: number;
+  productsCount: number;
+  onPageChange: (page: number) => void;
 }
 
 interface ArrowIconWrapperProps {
@@ -16,28 +17,27 @@ interface ArrowIconWrapperProps {
   isLastPage?: boolean;
 }
 
-const Pagination: React.FC<PaginationProps> = ({ count }) => {
+const Pagination: React.FC<PaginationProps> = ({
+  currentPage,
+  productsCount,
+  onPageChange,
+}) => {
   const {
     pages,
-    limit,
-    currentPage,
     isFirstPage,
     isLastPage,
-    handlePageChange,
-    handleGoToNextPage,
-    handleGoToPreviousPage,
-  } = usePagination(count);
+    pageChange,
+    goToNextPage,
+    goToPreviousPage,
+  } = usePagination({ productsCount, currentPage, onPageChange });
 
-  if (count <= limit) {
-    return null;
+  if (productsCount <= limits.PRODUCTS_PER_PAGE) {
+    return <Placeholder />;
   }
 
   return (
     <PaginationContainer>
-      <ArrowIconWrapper
-        isFirstPage={isFirstPage}
-        onClick={handleGoToPreviousPage}
-      >
+      <ArrowIconWrapper isFirstPage={isFirstPage} onClick={goToPreviousPage}>
         <ArrowIcon />
       </ArrowIconWrapper>
       {pages.map((page, index) => (
@@ -45,15 +45,19 @@ const Pagination: React.FC<PaginationProps> = ({ count }) => {
           key={page}
           active={currentPage === index + 1}
           page={page}
-          onPageChange={handlePageChange}
+          onPageChange={pageChange}
         />
       ))}
-      <ArrowIconWrapper isLastPage={isLastPage} onClick={handleGoToNextPage}>
+      <ArrowIconWrapper isLastPage={isLastPage} onClick={goToNextPage}>
         <ArrowIcon />
       </ArrowIconWrapper>
     </PaginationContainer>
   );
 };
+
+const Placeholder = styled.div`
+  height: 32px;
+`;
 
 const ArrowIconWrapper = styled.div<ArrowIconWrapperProps>`
   height: 16px;

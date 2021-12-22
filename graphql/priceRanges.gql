@@ -1,0 +1,9 @@
+query priceRanges {
+  priceRanges: priceRange_aggregate {
+    nodes {
+      greater_than
+      id
+      less_than
+    }
+  }
+}

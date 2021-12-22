@@ -28,7 +28,6 @@ export const FiltersMenuContainer: React.FC<FiltersMenuContainerProps> = ({
 
   const hadnleClear = () => {
     onClear();
-    onSubmit();
     onClose();
   };
 

@@ -1,0 +1,36 @@
+query featuredProduct {
+  product(where: { featured: { _eq: true } }, limit: 1) {
+    id
+    name
+    price
+    bestseller
+    description
+    image {
+      alt
+      height
+      id
+      size
+      src
+      width
+    }
+    category {
+      id
+      name
+      slug
+    }
+    recommendeds {
+      productByRecommendedProductId {
+        id
+        name
+        image {
+          alt
+          height
+          id
+          size
+          src
+          width
+        }
+      }
+    }
+  }
+}

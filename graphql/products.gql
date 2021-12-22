@@ -1,51 +1,49 @@
-fragment product on product {
-  id
-  name
-  price
-  bestseller
-  description
-  image {
-    alt
-    height
-    id
-    size
-    src
-    width
-  }
-  category {
-    id
-    name
-  }
-}
-
-query Products($offset: Int = 0, $limit: Int = 6, $categories: [String!] = "") {
+query products(
+  $offset: Int = 0
+  $limit: Int = 2
+  $categories: [String!] = ["dogs", "nature"]
+  $gte: numeric = 0
+  $lte: numeric = 1000000
+) {
   products(
     limit: $limit
     offset: $offset
-    where: { category: { slug: { _in: $categories } } }
+    where: {
+      category: { slug: { _in: $categories } }
+      price: { _gte: $gte, _lte: $lte }
+      featured: { _eq: false }
+    }
   ) {
     nodes {
-      ...product
-    }
-    aggregate {
-      count
-    }
-  }
-  featuredProduct: product(where: { featured: { _eq: true } }, limit: 1) {
-    ...product
-    recommendeds {
-      productByRecommendedProductId {
+      id
+      name
+      price
+      bestseller
+      description
+      image {
+        alt
+        height
+        id
+        size
+        src
+        width
+      }
+      category {
         id
         name
-        image {
-          alt
-          height
-          id
-          size
-          src
-          width
-        }
+        slug
       }
+    }
+  }
+  productsCount: products(
+    where: {
+      category: { slug: { _in: $categories } }
+      price: { _gte: $gte, _lte: $lte }
+      featured: { _eq: false }
+    }
+  ) {
+    aggregate {
+      count
     }
   }
 }
