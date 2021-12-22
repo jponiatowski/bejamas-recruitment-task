@@ -1,5 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Product } from "types/api";
+import { lockPageScroll } from "~/utils/lockPageScroll";
+import { unlockPageScroll } from "~/utils/unlockPageScroll";
 
 interface CartState {
   products: Product[];
@@ -16,15 +18,19 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     openCart: (state) => {
+      lockPageScroll();
       state.isCartOpen = true;
     },
     closeCart: (state) => {
+      unlockPageScroll();
       state.isCartOpen = false;
     },
     toggleCart: (state) => {
+      state.isCartOpen ? unlockPageScroll() : lockPageScroll();
       state.isCartOpen = !state.isCartOpen;
     },
     addProduct: (state, action: PayloadAction<Product>) => {
+      lockPageScroll();
       state.products.push(action.payload);
       state.isCartOpen = true;
     },

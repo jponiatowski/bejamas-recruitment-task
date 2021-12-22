@@ -71,19 +71,6 @@ export const useFilterPrice = ({
   };
 
   const handleClearPriceRange = () => {
-    const newQuery = { ...router.query };
-
-    delete newQuery.lt;
-    delete newQuery.gt;
-
-    router.push(
-      {
-        query: { ...newQuery },
-      },
-      undefined,
-      { scroll: false, shallow: true }
-    );
-
     setPriceRange(undefined);
   };
 

@@ -1,11 +1,10 @@
-import { useAppDispatch, useAppSelector } from "~/store/hooks";
+import { useAppDispatch } from "~/store/hooks";
 import {
   clearCart,
   openCart,
   closeCart,
   toggleCart,
 } from "~/store/slices/cart-slice";
-import { getIsCartOpen } from "~/store/selectors/getIsCartOpen";
 
 interface IUseCart {
   handleOpenCart: () => void;
@@ -16,7 +15,6 @@ interface IUseCart {
 
 export const useCart = (): IUseCart => {
   const dispatch = useAppDispatch();
-  const isOpen = useAppSelector(getIsCartOpen);
 
   const handleToggleCart = () => {
     dispatch(toggleCart());

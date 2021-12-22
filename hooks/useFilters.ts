@@ -35,8 +35,23 @@ export const useFilters = (resetPagination: () => void) => {
   });
 
   const handleClear = () => {
-    handleClearCategories();
     handleClearPriceRange();
+    handleClearCategories();
+
+    const newQuery = { ...router.query };
+    delete newQuery.categories;
+    delete newQuery.lt;
+    delete newQuery.gt;
+
+    router.push(
+      {
+        query: {
+          ...newQuery,
+        },
+      },
+      undefined,
+      { scroll: false, shallow: true }
+    );
   };
 
   const handleSubmit = () => {

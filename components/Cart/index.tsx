@@ -17,45 +17,45 @@ const Cart: React.FC = () => {
   const { handleCloseCart, handleClear, handleToggleCart } = useCart();
 
   return (
-    <Container>
+    <Container isOpen={isOpen}>
       <CartIconButton onClick={handleToggleCart}>
         <CartIcon />
       </CartIconButton>
-      {isOpen ? (
-        <CartComponent>
-          <CloseIconButton onClick={handleCloseCart}>
-            <CloseIcon />
-          </CloseIconButton>
-          {cartProducts.length ? (
-            cartProducts.map((product) => (
-              <Product key={product.id}>
-                <div>
-                  <ProductName>{product.name}</ProductName>
-                  <ProductPrice>{`${product.price}`}</ProductPrice>
-                </div>
-                <ProductImageWrapper>
-                  <NextImage
-                    src={product.image.src}
-                    alt={product.image.alt}
-                    layout="responsive"
-                    width={product.image.width}
-                    height={product.image.height}
-                  />
-                </ProductImageWrapper>
-              </Product>
-            ))
-          ) : (
-            <NoProducts>There are no products in the car</NoProducts>
-          )}
-          <StyledButton
-            disabled={!cartProducts.length}
-            variant="secondary"
-            onClick={handleClear}
-          >
-            Clear
-          </StyledButton>
-        </CartComponent>
-      ) : null}
+
+      <CartComponent isOpen={isOpen}>
+        <CloseIconButton onClick={handleCloseCart}>
+          <CloseIcon />
+        </CloseIconButton>
+        {cartProducts.length ? (
+          cartProducts.map((product) => (
+            <Product key={product.id}>
+              <div>
+                <ProductName>{product.name}</ProductName>
+                <ProductPrice>{`${product.price}`}</ProductPrice>
+              </div>
+              <ProductImageWrapper>
+                <NextImage
+                  src={product.image.src}
+                  alt={product.image.alt}
+                  layout="responsive"
+                  width={product.image.width}
+                  height={product.image.height}
+                />
+              </ProductImageWrapper>
+            </Product>
+          ))
+        ) : (
+          <NoProducts>There are no products in the cart</NoProducts>
+        )}
+        <StyledButton
+          disabled={!cartProducts.length}
+          variant="secondary"
+          onClick={handleClear}
+        >
+          Clear
+        </StyledButton>
+      </CartComponent>
+
       {cartProducts.length ? <Badge>{cartProducts.length}</Badge> : null}
     </Container>
   );
@@ -66,6 +66,7 @@ const NoProducts = styled.div`
   margin-bottom: 25px;
   border-bottom: 1px solid #c2c2c2;
   text-align: center;
+  width: 100%;
 `;
 
 const Product = styled.div`
@@ -77,6 +78,10 @@ const Product = styled.div`
   border-bottom: 1px solid #c2c2c2;
   padding: 24px 0;
   margin-bottom: 25px;
+
+  @media (max-width: ${(p) => p.theme.breakpoints.mobile}) {
+    grid-template-columns: 1fr 100px;
+  }
 `;
 
 const ProductName = styled.div`
@@ -85,6 +90,10 @@ const ProductName = styled.div`
   line-height: 22px;
   white-space: nowrap;
   margin-bottom: 9px;
+
+  @media (max-width: ${(p) => p.theme.breakpoints.mobile}) {
+    white-space: normal;
+  }
 `;
 
 const ProductPrice = styled.div`
@@ -95,6 +104,10 @@ const ProductPrice = styled.div`
 
 const ProductImageWrapper = styled.figure`
   width: 150px;
+
+  @media (max-width: ${(p) => p.theme.breakpoints.mobile}) {
+    width: 100px;
+  }
 `;
 
 const StyledButton = styled(Button)`
@@ -113,14 +126,34 @@ const Badge = styled.div`
   bottom: 0;
   right: 0;
   transform: translate(50%, 50%);
+
+  @media (max-width: ${(p) => p.theme.breakpoints.mobile}) {
+    width: 16px;
+    height: 16px;
+    font-size: 12px;
+  }
 `;
 
-const Container = styled.div`
+const Container = styled.div<{ isOpen: boolean }>`
   position: relative;
+
+  @media (max-width: ${(p) => p.theme.breakpoints.mobile}) {
+    &:after {
+      display: ${(p) => (p.isOpen ? "block" : "none")};
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      background-color: rgba(0, 0, 0, 0.2);
+      width: 100vw;
+      height: 100vh;
+      z-index: ${zIndex.MOBILE_OVERLAY};
+    }
+  }
 `;
 
-const CartComponent = styled.div`
-  display: flex;
+const CartComponent = styled.div<{ isOpen: boolean }>`
+  display: ${(p) => (p.isOpen ? "flex" : "none")};
   flex-direction: column;
   align-items: flex-end;
   position: absolute;
@@ -132,6 +165,23 @@ const CartComponent = styled.div`
   background: #fff;
   z-index: ${zIndex.CART};
   width: fit-content;
+
+  @media (max-width: ${(p) => p.theme.breakpoints.mobile}) {
+    display: flex;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    transform: none;
+    max-height: ${(p) => (p.isOpen ? "calc(100vh - 88px)" : "0")};
+    visibility: ${(p) => (p.isOpen ? "visible" : "hidden")};
+    height: fit-content;
+    overflow-x: hidden;
+    overflow-y: auto;
+    border: none;
+    transition: all 0.2s ease-in;
+  }
 `;
 
 const CartIconButton = styled.button`
