@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 
 import BejamasIcon from "icons/Bejamas";
-import CartIcon from "icons/Cart";
 import Link from "components/Link";
 import Cart from "components/Cart";
 
@@ -10,7 +9,7 @@ const Header: React.FC = () => {
   return (
     <HeaderContainer>
       <BejamasIconWrapper>
-        <Link href="/" passHref>
+        <Link href="/" passHref aria-label="Bejamas">
           <BejamasIcon />
         </Link>
       </BejamasIconWrapper>
@@ -24,17 +23,6 @@ const BejamasIconWrapper = styled.div`
 
   @media (max-width: ${(p) => p.theme.breakpoints.mobile}) {
     width: 124px;
-  }
-`;
-
-const CartIconWrapper = styled.button`
-  background: none;
-  border: none;
-  cursor: pointer;
-  width: 54px;
-
-  @media (max-width: ${(p) => p.theme.breakpoints.mobile}) {
-    width: 32px;
   }
 `;
 

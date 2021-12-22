@@ -46,7 +46,7 @@ export const useFilterCategories = ({
       {
         query: {
           ...router.query,
-          categories: categories,
+          categories,
         },
       },
       undefined,

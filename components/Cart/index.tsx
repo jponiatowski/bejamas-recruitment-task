@@ -18,7 +18,7 @@ const Cart: React.FC = () => {
 
   return (
     <Container isOpen={isOpen}>
-      <CartIconButton onClick={handleToggleCart}>
+      <CartIconButton onClick={handleToggleCart} aria-label="Cart">
         <CartIcon />
       </CartIconButton>
 

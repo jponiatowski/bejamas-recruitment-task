@@ -10,6 +10,8 @@ import {
   fetchProducts,
 } from "~/data";
 import { initializeApollo, addApolloState } from "~/data/client";
+import { getSortByFromQuery } from "~/utils/getSortByFromQuery";
+import { getOrderFromQuery } from "~/utils/getOrderFromQuery";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { query } = ctx;
@@ -25,6 +27,9 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     categories: await getCategoriesFromQuery(query),
     lte: query?.lt,
     gte: query?.gt,
+    order_by: {
+      [getSortByFromQuery(query)]: getOrderFromQuery(query),
+    },
   });
   return addApolloState(apolloClient, {
     props: {},

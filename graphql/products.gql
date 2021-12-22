@@ -1,9 +1,16 @@
 query products(
   $offset: Int = 0
-  $limit: Int = 2
-  $categories: [String!] = ["dogs", "nature"]
+  $limit: Int = 6
+  $categories: [String!] = [
+    "dogs"
+    "nature"
+    "basketball"
+    "beach"
+    "technology"
+  ]
   $gte: numeric = 0
   $lte: numeric = 1000000
+  $order_by: [product_order_by!] = { name: asc }
 ) {
   products(
     limit: $limit
@@ -13,6 +20,7 @@ query products(
       price: { _gte: $gte, _lte: $lte }
       featured: { _eq: false }
     }
+    order_by: $order_by
   ) {
     nodes {
       id
