@@ -9,56 +9,47 @@ import Product from "components/Product";
 import Pagination from "components/Pagination";
 import { lockPageScroll } from "utils/lockPageScroll";
 import { unlockPageScroll } from "utils/unlockPageScroll";
-import { Categories, Product as ProductType } from "types/api";
+import { Categories, PriceRanges, Product as ProductType } from "types/api";
 import { useSortBy } from "~/hooks/useSortBy";
-import { useFilterCategories } from "~/hooks/useFilterCategories";
-
-const MOCKED_DATA = {
-  priceRange: [
-    {
-      label: "Lower than $20",
-      value: "1",
-    },
-    {
-      label: "$20 - $100",
-      value: "2",
-    },
-    {
-      label: "$100 - $200",
-      value: "3",
-    },
-    {
-      label: "More than $200",
-      value: "4",
-    },
-  ],
-};
+import getPriceRangeLabel from "~/utils/getPriceRangeLabel";
+import { useFilters } from "~/hooks/useFilters";
+import { useFetchProducts } from "~/hooks/useFetchProducts";
+import { limits } from "~/constants/limits";
+import Loader from "~/components/Loader";
+import NoProducts from "~/components/NoProducts";
 
 const sortByOptions = [
   { value: "price", label: "Price" },
   { value: "name", label: "Alphabetical" },
 ];
 
-interface PremiumPhotosProps {
-  products: ProductType[];
-  categories: Categories;
-  productsCount?: number;
-}
+const PremiumPhotos: React.FC = () => {
+  const [filtersOpen, setFiltersOpen] = React.useState(false);
+  const [currentPage, setCurrentPage] = React.useState(1);
 
-const PremiumPhotos: React.FC<PremiumPhotosProps> = ({
-  products,
-  productsCount,
-  categories,
-}) => {
+  const {
+    priceRanges,
+    categories,
+    selectedCategories,
+    selectedPriceRange,
+    handleSubmit,
+    handleClear,
+    handleChangeCategory,
+    handleChangePriceRange,
+  } = useFilters(() => setCurrentPage);
+  const { products, productsCount, loading, fetchMore } = useFetchProducts({
+    offset: (currentPage - 1) * limits.PRODUCTS_PER_PAGE,
+    categories: selectedCategories.length ? selectedCategories : undefined,
+    lte: selectedPriceRange?.less_than || undefined,
+    gte: selectedPriceRange?.greater_than || undefined,
+  });
   const { sortedProducts, sortBy, handleChangeOrder, handleSortBy } =
     useSortBy(products);
-  const {
-    categories: categoriesFilters,
-    handleToggleCategory,
-    handleSubmitCategories,
-    handleClearCategories,
-  } = useFilterCategories();
-  const [filtersOpen, setFiltersOpen] = React.useState(false);
+
+  const onPageChange = (page: number) => {
+    fetchMore();
+    setCurrentPage(page);
+  };
 
   const handleOpenFilters = (): void => {
     setFiltersOpen(true);
@@ -69,11 +60,6 @@ const PremiumPhotos: React.FC<PremiumPhotosProps> = ({
     setFiltersOpen(false);
     unlockPageScroll();
   };
-
-  const handleSubmit = (): void => {
-    handleSubmitCategories();
-  };
-
   return (
     <Layout>
       <Header>
@@ -91,30 +77,42 @@ const PremiumPhotos: React.FC<PremiumPhotosProps> = ({
       <FiltersMenuContainer
         onSubmit={handleSubmit}
         onClose={handleCloseFilters}
-        onClear={handleClearCategories}
+        onClear={handleClear}
         isOpen={filtersOpen}
       >
         <FiltersMenu
           title="Category"
-          values={categoriesFilters}
+          values={selectedCategories}
           options={categories.map(({ slug, name }) => ({
             value: slug,
             label: name,
           }))}
-          onChange={handleToggleCategory}
+          onChange={handleChangeCategory}
         />
         <FiltersMenu
           title="Price range"
-          values={[]}
-          options={MOCKED_DATA.priceRange}
+          values={selectedPriceRange?.id}
+          onChange={handleChangePriceRange}
+          options={priceRanges.map((pr) => ({
+            value: pr.id,
+            label: getPriceRangeLabel(pr),
+          }))}
         />
       </FiltersMenuContainer>
+      {loading && <Loader />}
+      {!loading && !products.length && <NoProducts />}
+
       <PhotoGrid>
         {sortedProducts.map((product) => (
           <Product key={product.id} product={product} />
         ))}
       </PhotoGrid>
-      <Pagination count={productsCount || 0} />
+
+      <Pagination
+        onPageChange={onPageChange}
+        productsCount={productsCount}
+        currentPage={currentPage}
+      />
     </Layout>
   );
 };

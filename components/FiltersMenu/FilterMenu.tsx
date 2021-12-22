@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { useRouter } from "next/router";
 
 import Checkbox from "components/Checkbox";
 
@@ -10,7 +9,7 @@ interface FiltersMenuProps {
     label: string;
     value: string;
   }[];
-  values: string[];
+  values: string[] | string;
   onChange?: (value: string) => void;
 }
 
@@ -24,13 +23,17 @@ const FiltersMenu: React.FC<FiltersMenuProps> = ({
     <Menu>
       <Title>{title}</Title>
       <div>
-        {options.map(({ label, value }) => (
-          <Option key={value}>
+        {options.map((o) => (
+          <Option key={o.value}>
             <Checkbox
-              checked={values.includes(value)}
-              onClick={() => onChange && onChange(value)}
+              checked={
+                Array.isArray(values)
+                  ? values.includes(o.value)
+                  : values === o.value
+              }
+              onClick={() => onChange && onChange(o.value)}
             />
-            <Label key={value}>{label}</Label>
+            <Label key={o.value}>{o.label}</Label>
           </Option>
         ))}
       </div>

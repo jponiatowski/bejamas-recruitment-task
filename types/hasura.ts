@@ -515,6 +515,10 @@ export type Mutation_Root = {
   delete_image?: Maybe<Image_Mutation_Response>;
   /** delete single row from the table: "image" */
   delete_image_by_pk?: Maybe<Image>;
+  /** delete data from the table: "priceRange" */
+  delete_priceRange?: Maybe<PriceRange_Mutation_Response>;
+  /** delete single row from the table: "priceRange" */
+  delete_priceRange_by_pk?: Maybe<PriceRange>;
   /** delete data from the table: "product" */
   delete_product?: Maybe<Product_Mutation_Response>;
   /** delete single row from the table: "product" */
@@ -531,6 +535,10 @@ export type Mutation_Root = {
   insert_image?: Maybe<Image_Mutation_Response>;
   /** insert a single row into the table: "image" */
   insert_image_one?: Maybe<Image>;
+  /** insert data into the table: "priceRange" */
+  insert_priceRange?: Maybe<PriceRange_Mutation_Response>;
+  /** insert a single row into the table: "priceRange" */
+  insert_priceRange_one?: Maybe<PriceRange>;
   /** insert data into the table: "product" */
   insert_product?: Maybe<Product_Mutation_Response>;
   /** insert a single row into the table: "product" */
@@ -547,6 +555,10 @@ export type Mutation_Root = {
   update_image?: Maybe<Image_Mutation_Response>;
   /** update single row of the table: "image" */
   update_image_by_pk?: Maybe<Image>;
+  /** update data of the table: "priceRange" */
+  update_priceRange?: Maybe<PriceRange_Mutation_Response>;
+  /** update single row of the table: "priceRange" */
+  update_priceRange_by_pk?: Maybe<PriceRange>;
   /** update data of the table: "product" */
   update_product?: Maybe<Product_Mutation_Response>;
   /** update single row of the table: "product" */
@@ -578,6 +590,18 @@ export type Mutation_RootDelete_ImageArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Image_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_PriceRangeArgs = {
+  where: PriceRange_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_PriceRange_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -631,6 +655,20 @@ export type Mutation_RootInsert_ImageArgs = {
 export type Mutation_RootInsert_Image_OneArgs = {
   object: Image_Insert_Input;
   on_conflict?: InputMaybe<Image_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_PriceRangeArgs = {
+  objects: Array<PriceRange_Insert_Input>;
+  on_conflict?: InputMaybe<PriceRange_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_PriceRange_OneArgs = {
+  object: PriceRange_Insert_Input;
+  on_conflict?: InputMaybe<PriceRange_On_Conflict>;
 };
 
 
@@ -693,6 +731,22 @@ export type Mutation_RootUpdate_Image_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_PriceRangeArgs = {
+  _inc?: InputMaybe<PriceRange_Inc_Input>;
+  _set?: InputMaybe<PriceRange_Set_Input>;
+  where: PriceRange_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_PriceRange_By_PkArgs = {
+  _inc?: InputMaybe<PriceRange_Inc_Input>;
+  _set?: InputMaybe<PriceRange_Set_Input>;
+  pk_columns: PriceRange_Pk_Columns_Input;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_ProductArgs = {
   _inc?: InputMaybe<Product_Inc_Input>;
   _set?: InputMaybe<Product_Set_Input>;
@@ -749,6 +803,200 @@ export enum Order_By {
   /** in descending order, nulls last */
   DescNullsLast = 'desc_nulls_last'
 }
+
+/** columns and relationships of "priceRange" */
+export type PriceRange = {
+  __typename?: 'priceRange';
+  greater_than?: Maybe<Scalars['numeric']>;
+  id: Scalars['uuid'];
+  less_than?: Maybe<Scalars['numeric']>;
+};
+
+/** aggregated selection of "priceRange" */
+export type PriceRange_Aggregate = {
+  __typename?: 'priceRange_aggregate';
+  aggregate?: Maybe<PriceRange_Aggregate_Fields>;
+  nodes: Array<PriceRange>;
+};
+
+/** aggregate fields of "priceRange" */
+export type PriceRange_Aggregate_Fields = {
+  __typename?: 'priceRange_aggregate_fields';
+  avg?: Maybe<PriceRange_Avg_Fields>;
+  count: Scalars['Int'];
+  max?: Maybe<PriceRange_Max_Fields>;
+  min?: Maybe<PriceRange_Min_Fields>;
+  stddev?: Maybe<PriceRange_Stddev_Fields>;
+  stddev_pop?: Maybe<PriceRange_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<PriceRange_Stddev_Samp_Fields>;
+  sum?: Maybe<PriceRange_Sum_Fields>;
+  var_pop?: Maybe<PriceRange_Var_Pop_Fields>;
+  var_samp?: Maybe<PriceRange_Var_Samp_Fields>;
+  variance?: Maybe<PriceRange_Variance_Fields>;
+};
+
+
+/** aggregate fields of "priceRange" */
+export type PriceRange_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<PriceRange_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** aggregate avg on columns */
+export type PriceRange_Avg_Fields = {
+  __typename?: 'priceRange_avg_fields';
+  greater_than?: Maybe<Scalars['Float']>;
+  less_than?: Maybe<Scalars['Float']>;
+};
+
+/** Boolean expression to filter rows from the table "priceRange". All fields are combined with a logical 'AND'. */
+export type PriceRange_Bool_Exp = {
+  _and?: InputMaybe<Array<PriceRange_Bool_Exp>>;
+  _not?: InputMaybe<PriceRange_Bool_Exp>;
+  _or?: InputMaybe<Array<PriceRange_Bool_Exp>>;
+  greater_than?: InputMaybe<Numeric_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  less_than?: InputMaybe<Numeric_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "priceRange" */
+export enum PriceRange_Constraint {
+  /** unique or primary key constraint */
+  PriceRangePkey = 'priceRange_pkey'
+}
+
+/** input type for incrementing numeric columns in table "priceRange" */
+export type PriceRange_Inc_Input = {
+  greater_than?: InputMaybe<Scalars['numeric']>;
+  less_than?: InputMaybe<Scalars['numeric']>;
+};
+
+/** input type for inserting data into table "priceRange" */
+export type PriceRange_Insert_Input = {
+  greater_than?: InputMaybe<Scalars['numeric']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  less_than?: InputMaybe<Scalars['numeric']>;
+};
+
+/** aggregate max on columns */
+export type PriceRange_Max_Fields = {
+  __typename?: 'priceRange_max_fields';
+  greater_than?: Maybe<Scalars['numeric']>;
+  id?: Maybe<Scalars['uuid']>;
+  less_than?: Maybe<Scalars['numeric']>;
+};
+
+/** aggregate min on columns */
+export type PriceRange_Min_Fields = {
+  __typename?: 'priceRange_min_fields';
+  greater_than?: Maybe<Scalars['numeric']>;
+  id?: Maybe<Scalars['uuid']>;
+  less_than?: Maybe<Scalars['numeric']>;
+};
+
+/** response of any mutation on the table "priceRange" */
+export type PriceRange_Mutation_Response = {
+  __typename?: 'priceRange_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<PriceRange>;
+};
+
+/** on conflict condition type for table "priceRange" */
+export type PriceRange_On_Conflict = {
+  constraint: PriceRange_Constraint;
+  update_columns?: Array<PriceRange_Update_Column>;
+  where?: InputMaybe<PriceRange_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "priceRange". */
+export type PriceRange_Order_By = {
+  greater_than?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  less_than?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: priceRange */
+export type PriceRange_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "priceRange" */
+export enum PriceRange_Select_Column {
+  /** column name */
+  GreaterThan = 'greater_than',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  LessThan = 'less_than'
+}
+
+/** input type for updating data in table "priceRange" */
+export type PriceRange_Set_Input = {
+  greater_than?: InputMaybe<Scalars['numeric']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  less_than?: InputMaybe<Scalars['numeric']>;
+};
+
+/** aggregate stddev on columns */
+export type PriceRange_Stddev_Fields = {
+  __typename?: 'priceRange_stddev_fields';
+  greater_than?: Maybe<Scalars['Float']>;
+  less_than?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_pop on columns */
+export type PriceRange_Stddev_Pop_Fields = {
+  __typename?: 'priceRange_stddev_pop_fields';
+  greater_than?: Maybe<Scalars['Float']>;
+  less_than?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_samp on columns */
+export type PriceRange_Stddev_Samp_Fields = {
+  __typename?: 'priceRange_stddev_samp_fields';
+  greater_than?: Maybe<Scalars['Float']>;
+  less_than?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate sum on columns */
+export type PriceRange_Sum_Fields = {
+  __typename?: 'priceRange_sum_fields';
+  greater_than?: Maybe<Scalars['numeric']>;
+  less_than?: Maybe<Scalars['numeric']>;
+};
+
+/** update columns of table "priceRange" */
+export enum PriceRange_Update_Column {
+  /** column name */
+  GreaterThan = 'greater_than',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  LessThan = 'less_than'
+}
+
+/** aggregate var_pop on columns */
+export type PriceRange_Var_Pop_Fields = {
+  __typename?: 'priceRange_var_pop_fields';
+  greater_than?: Maybe<Scalars['Float']>;
+  less_than?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate var_samp on columns */
+export type PriceRange_Var_Samp_Fields = {
+  __typename?: 'priceRange_var_samp_fields';
+  greater_than?: Maybe<Scalars['Float']>;
+  less_than?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate variance on columns */
+export type PriceRange_Variance_Fields = {
+  __typename?: 'priceRange_variance_fields';
+  greater_than?: Maybe<Scalars['Float']>;
+  less_than?: Maybe<Scalars['Float']>;
+};
 
 /** columns and relationships of "product" */
 export type Product = {
@@ -1179,6 +1427,12 @@ export type Query_Root = {
   image_by_pk?: Maybe<Image>;
   /** fetch aggregated fields from the table: "image" */
   images: Image_Aggregate;
+  /** fetch data from the table: "priceRange" */
+  priceRange: Array<PriceRange>;
+  /** fetch aggregated fields from the table: "priceRange" */
+  priceRange_aggregate: PriceRange_Aggregate;
+  /** fetch data from the table: "priceRange" using primary key columns */
+  priceRange_by_pk?: Maybe<PriceRange>;
   /** fetch data from the table: "product" */
   product: Array<Product>;
   /** fetch data from the table: "product" using primary key columns */
@@ -1241,6 +1495,29 @@ export type Query_RootImagesArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   order_by?: InputMaybe<Array<Image_Order_By>>;
   where?: InputMaybe<Image_Bool_Exp>;
+};
+
+
+export type Query_RootPriceRangeArgs = {
+  distinct_on?: InputMaybe<Array<PriceRange_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<PriceRange_Order_By>>;
+  where?: InputMaybe<PriceRange_Bool_Exp>;
+};
+
+
+export type Query_RootPriceRange_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<PriceRange_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<PriceRange_Order_By>>;
+  where?: InputMaybe<PriceRange_Bool_Exp>;
+};
+
+
+export type Query_RootPriceRange_By_PkArgs = {
+  id: Scalars['uuid'];
 };
 
 
@@ -1549,6 +1826,12 @@ export type Subscription_Root = {
   image_by_pk?: Maybe<Image>;
   /** fetch aggregated fields from the table: "image" */
   images: Image_Aggregate;
+  /** fetch data from the table: "priceRange" */
+  priceRange: Array<PriceRange>;
+  /** fetch aggregated fields from the table: "priceRange" */
+  priceRange_aggregate: PriceRange_Aggregate;
+  /** fetch data from the table: "priceRange" using primary key columns */
+  priceRange_by_pk?: Maybe<PriceRange>;
   /** fetch data from the table: "product" */
   product: Array<Product>;
   /** fetch data from the table: "product" using primary key columns */
@@ -1611,6 +1894,29 @@ export type Subscription_RootImagesArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   order_by?: InputMaybe<Array<Image_Order_By>>;
   where?: InputMaybe<Image_Bool_Exp>;
+};
+
+
+export type Subscription_RootPriceRangeArgs = {
+  distinct_on?: InputMaybe<Array<PriceRange_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<PriceRange_Order_By>>;
+  where?: InputMaybe<PriceRange_Bool_Exp>;
+};
+
+
+export type Subscription_RootPriceRange_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<PriceRange_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<PriceRange_Order_By>>;
+  where?: InputMaybe<PriceRange_Bool_Exp>;
+};
+
+
+export type Subscription_RootPriceRange_By_PkArgs = {
+  id: Scalars['uuid'];
 };
 
 
@@ -1695,45 +2001,28 @@ export type CategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type CategoriesQuery = { __typename?: 'query_root', categories: { __typename?: 'category_aggregate', nodes: Array<{ __typename?: 'category', id: any, name: string, slug: string }> } };
 
-export type ProductFragment = { __typename?: 'product', id: any, name: string, price: any, bestseller: boolean, description: string, image: { __typename?: 'image', alt: string, height: number, id: any, size: any, src: string, width: number }, category: { __typename?: 'category', id: any, name: string } };
+export type FeaturedProductQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FeaturedProductQuery = { __typename?: 'query_root', product: Array<{ __typename?: 'product', id: any, name: string, price: any, bestseller: boolean, description: string, image: { __typename?: 'image', alt: string, height: number, id: any, size: any, src: string, width: number }, category: { __typename?: 'category', id: any, name: string, slug: string }, recommendeds: Array<{ __typename?: 'recommended', productByRecommendedProductId: { __typename?: 'product', id: any, name: string, image: { __typename?: 'image', alt: string, height: number, id: any, size: any, src: string, width: number } } }> }> };
+
+export type PriceRangesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type PriceRangesQuery = { __typename?: 'query_root', priceRanges: { __typename?: 'priceRange_aggregate', nodes: Array<{ __typename?: 'priceRange', greater_than?: any | null | undefined, id: any, less_than?: any | null | undefined }> } };
 
 export type ProductsQueryVariables = Exact<{
   offset?: InputMaybe<Scalars['Int']>;
   limit?: InputMaybe<Scalars['Int']>;
   categories?: InputMaybe<Array<Scalars['String']> | Scalars['String']>;
+  gte?: InputMaybe<Scalars['numeric']>;
+  lte?: InputMaybe<Scalars['numeric']>;
 }>;
 
 
-export type ProductsQuery = { __typename?: 'query_root', products: { __typename?: 'product_aggregate', nodes: Array<{ __typename?: 'product', id: any, name: string, price: any, bestseller: boolean, description: string, image: { __typename?: 'image', alt: string, height: number, id: any, size: any, src: string, width: number }, category: { __typename?: 'category', id: any, name: string } }>, aggregate?: { __typename?: 'product_aggregate_fields', count: number } | null | undefined }, featuredProduct: Array<{ __typename?: 'product', id: any, name: string, price: any, bestseller: boolean, description: string, recommendeds: Array<{ __typename?: 'recommended', productByRecommendedProductId: { __typename?: 'product', id: any, name: string, image: { __typename?: 'image', alt: string, height: number, id: any, size: any, src: string, width: number } } }>, image: { __typename?: 'image', alt: string, height: number, id: any, size: any, src: string, width: number }, category: { __typename?: 'category', id: any, name: string } }> };
-
-export type ProductsCountQueryVariables = Exact<{
-  categories?: InputMaybe<Array<Scalars['String']> | Scalars['String']>;
-}>;
+export type ProductsQuery = { __typename?: 'query_root', products: { __typename?: 'product_aggregate', nodes: Array<{ __typename?: 'product', id: any, name: string, price: any, bestseller: boolean, description: string, image: { __typename?: 'image', alt: string, height: number, id: any, size: any, src: string, width: number }, category: { __typename?: 'category', id: any, name: string, slug: string } }> }, productsCount: { __typename?: 'product_aggregate', aggregate?: { __typename?: 'product_aggregate_fields', count: number } | null | undefined } };
 
 
-export type ProductsCountQuery = { __typename?: 'query_root', products: { __typename?: 'product_aggregate', aggregate?: { __typename?: 'product_aggregate_fields', count: number } | null | undefined } };
-
-export const ProductFragmentDoc = gql`
-    fragment product on product {
-  id
-  name
-  price
-  bestseller
-  description
-  image {
-    alt
-    height
-    id
-    size
-    src
-    width
-  }
-  category {
-    id
-    name
-  }
-}
-    `;
 export const CategoriesDocument = gql`
     query Categories {
   categories(distinct_on: slug) {
@@ -1772,22 +2061,27 @@ export function useCategoriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions
 export type CategoriesQueryHookResult = ReturnType<typeof useCategoriesQuery>;
 export type CategoriesLazyQueryHookResult = ReturnType<typeof useCategoriesLazyQuery>;
 export type CategoriesQueryResult = Apollo.QueryResult<CategoriesQuery, CategoriesQueryVariables>;
-export const ProductsDocument = gql`
-    query Products($offset: Int = 0, $limit: Int = 6, $categories: [String!] = "") {
-  products(
-    limit: $limit
-    offset: $offset
-    where: {category: {slug: {_in: $categories}}}
-  ) {
-    nodes {
-      ...product
+export const FeaturedProductDocument = gql`
+    query featuredProduct {
+  product(where: {featured: {_eq: true}}, limit: 1) {
+    id
+    name
+    price
+    bestseller
+    description
+    image {
+      alt
+      height
+      id
+      size
+      src
+      width
     }
-    aggregate {
-      count
+    category {
+      id
+      name
+      slug
     }
-  }
-  featuredProduct: product(where: {featured: {_eq: true}}, limit: 1) {
-    ...product
     recommendeds {
       productByRecommendedProductId {
         id
@@ -1804,7 +2098,109 @@ export const ProductsDocument = gql`
     }
   }
 }
-    ${ProductFragmentDoc}`;
+    `;
+
+/**
+ * __useFeaturedProductQuery__
+ *
+ * To run a query within a React component, call `useFeaturedProductQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFeaturedProductQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFeaturedProductQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFeaturedProductQuery(baseOptions?: Apollo.QueryHookOptions<FeaturedProductQuery, FeaturedProductQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FeaturedProductQuery, FeaturedProductQueryVariables>(FeaturedProductDocument, options);
+      }
+export function useFeaturedProductLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FeaturedProductQuery, FeaturedProductQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FeaturedProductQuery, FeaturedProductQueryVariables>(FeaturedProductDocument, options);
+        }
+export type FeaturedProductQueryHookResult = ReturnType<typeof useFeaturedProductQuery>;
+export type FeaturedProductLazyQueryHookResult = ReturnType<typeof useFeaturedProductLazyQuery>;
+export type FeaturedProductQueryResult = Apollo.QueryResult<FeaturedProductQuery, FeaturedProductQueryVariables>;
+export const PriceRangesDocument = gql`
+    query priceRanges {
+  priceRanges: priceRange_aggregate {
+    nodes {
+      greater_than
+      id
+      less_than
+    }
+  }
+}
+    `;
+
+/**
+ * __usePriceRangesQuery__
+ *
+ * To run a query within a React component, call `usePriceRangesQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePriceRangesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePriceRangesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function usePriceRangesQuery(baseOptions?: Apollo.QueryHookOptions<PriceRangesQuery, PriceRangesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PriceRangesQuery, PriceRangesQueryVariables>(PriceRangesDocument, options);
+      }
+export function usePriceRangesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PriceRangesQuery, PriceRangesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PriceRangesQuery, PriceRangesQueryVariables>(PriceRangesDocument, options);
+        }
+export type PriceRangesQueryHookResult = ReturnType<typeof usePriceRangesQuery>;
+export type PriceRangesLazyQueryHookResult = ReturnType<typeof usePriceRangesLazyQuery>;
+export type PriceRangesQueryResult = Apollo.QueryResult<PriceRangesQuery, PriceRangesQueryVariables>;
+export const ProductsDocument = gql`
+    query products($offset: Int = 0, $limit: Int = 2, $categories: [String!] = ["dogs", "nature"], $gte: numeric = 0, $lte: numeric = 1000000) {
+  products(
+    limit: $limit
+    offset: $offset
+    where: {category: {slug: {_in: $categories}}, price: {_gte: $gte, _lte: $lte}, featured: {_eq: false}}
+  ) {
+    nodes {
+      id
+      name
+      price
+      bestseller
+      description
+      image {
+        alt
+        height
+        id
+        size
+        src
+        width
+      }
+      category {
+        id
+        name
+        slug
+      }
+    }
+  }
+  productsCount: products(
+    where: {category: {slug: {_in: $categories}}, price: {_gte: $gte, _lte: $lte}, featured: {_eq: false}}
+  ) {
+    aggregate {
+      count
+    }
+  }
+}
+    `;
 
 /**
  * __useProductsQuery__
@@ -1821,6 +2217,8 @@ export const ProductsDocument = gql`
  *      offset: // value for 'offset'
  *      limit: // value for 'limit'
  *      categories: // value for 'categories'
+ *      gte: // value for 'gte'
+ *      lte: // value for 'lte'
  *   },
  * });
  */
@@ -1835,40 +2233,3 @@ export function useProductsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<P
 export type ProductsQueryHookResult = ReturnType<typeof useProductsQuery>;
 export type ProductsLazyQueryHookResult = ReturnType<typeof useProductsLazyQuery>;
 export type ProductsQueryResult = Apollo.QueryResult<ProductsQuery, ProductsQueryVariables>;
-export const ProductsCountDocument = gql`
-    query ProductsCount($categories: [String!]) {
-  products(where: {category: {slug: {_in: $categories}}}) {
-    aggregate {
-      count
-    }
-  }
-}
-    `;
-
-/**
- * __useProductsCountQuery__
- *
- * To run a query within a React component, call `useProductsCountQuery` and pass it any options that fit your needs.
- * When your component renders, `useProductsCountQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useProductsCountQuery({
- *   variables: {
- *      categories: // value for 'categories'
- *   },
- * });
- */
-export function useProductsCountQuery(baseOptions?: Apollo.QueryHookOptions<ProductsCountQuery, ProductsCountQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<ProductsCountQuery, ProductsCountQueryVariables>(ProductsCountDocument, options);
-      }
-export function useProductsCountLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ProductsCountQuery, ProductsCountQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<ProductsCountQuery, ProductsCountQueryVariables>(ProductsCountDocument, options);
-        }
-export type ProductsCountQueryHookResult = ReturnType<typeof useProductsCountQuery>;
-export type ProductsCountLazyQueryHookResult = ReturnType<typeof useProductsCountLazyQuery>;
-export type ProductsCountQueryResult = Apollo.QueryResult<ProductsCountQuery, ProductsCountQueryVariables>;

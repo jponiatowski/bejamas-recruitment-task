@@ -10,16 +10,15 @@ import {
 } from "components/FeaturedProduct";
 import { useAppDispatch } from "~/store/hooks";
 import { addProduct } from "store";
-import { FeaturedProduct as FeatureProductType } from "types/api";
+import { useFetchFeaturedProduct } from "~/hooks/useFetchFeaturedProduct";
 
-interface FeaturedProductProps {
-  featuredProduct: FeatureProductType;
-}
-
-const FeaturedProduct: React.FC<FeaturedProductProps> = ({
-  featuredProduct,
-}) => {
+const FeaturedProduct: React.FC = () => {
   const dispatch = useAppDispatch();
+  const { featuredProduct } = useFetchFeaturedProduct();
+
+  if (!featuredProduct) {
+    return null;
+  }
 
   const handleAddProduct = () => {
     dispatch(addProduct(featuredProduct));

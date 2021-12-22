@@ -1,28 +1,34 @@
 import { useState, useEffect } from "react";
-import { useRouter } from "next/router";
+import { NextRouter } from "next/router";
 import { remove } from "lodash";
 
 import { useIsMobile } from "~/hooks/useIsMobile";
 
-export const useFilterCategories = () => {
-  const router = useRouter();
+export const useFilterCategories = ({
+  router,
+  resetPagination,
+}: {
+  router: NextRouter;
+  resetPagination: () => void;
+}) => {
   const isMobile = useIsMobile();
-  const [categories, setCategories] = useState<string[]>(
-    (router.query.categories as string[]) || []
+  const [categories, setCategories] = useState<string[] | string>(
+    router.query.categories || []
   );
 
   useEffect(() => {
     if (!isMobile) {
       handleSubmitCategories();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categories]);
 
-  const handleToggleCategory = (category: string) => {
-    const newCategories = [...categories];
+  const handleChangeCategory = (category: string) => {
+    const newCategories = Array.isArray(categories)
+      ? [...categories]
+      : [categories];
 
     if (categories.includes(category)) {
-      console.log("essa");
-
       remove(newCategories, (c) => c === category);
     } else {
       newCategories.push(category);
@@ -31,57 +37,40 @@ export const useFilterCategories = () => {
   };
 
   const handleClearCategories = () => {
-    router.push(
-      router.asPath.replace(`categories/${categories.join("/")}`, ""),
-      undefined,
-      { scroll: false }
-    );
-    setCategories([]);
-  };
-
-  const handleSubmitCategories = () => {
-    if (
-      !Object.keys(router.query).includes("categories") &&
-      !categories.length
-    ) {
-      return;
-    }
-
-    if (!Object.keys(router.query).includes("categories")) {
-      router.push(
-        `${router.asPath}/categories/${categories.join("/")}`,
-        undefined,
-        { scroll: false }
-      );
-
-      return;
-    }
-
-    if (!categories.length) {
-      router.push(
-        router.asPath.replace(/\/categories\/.*\/|\/categories\/.*/, ""),
-        undefined,
-        { scroll: false }
-      );
-      return;
-    }
+    const newQuery = { ...router.query };
+    delete newQuery.categories;
 
     router.push(
       {
         query: {
-          ...router.query,
-          categories,
+          ...newQuery,
         },
       },
       undefined,
-      { scroll: false }
+      { scroll: false, shallow: true }
+    );
+
+    setCategories([]);
+  };
+
+  const handleSubmitCategories = () => {
+    resetPagination();
+    router.push(
+      {
+        query: {
+          ...router.query,
+          categories: categories,
+        },
+      },
+      undefined,
+      { scroll: false, shallow: true }
     );
   };
 
   return {
+    categories,
     handleClearCategories,
     handleSubmitCategories,
-    handleToggleCategory,
-    categories,
+    handleChangeCategory,
   };
 };
