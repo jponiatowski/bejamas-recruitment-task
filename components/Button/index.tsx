@@ -13,21 +13,21 @@ const getButtonStylesByVariant = (
 ) => {
   if (variant === "secondary") {
     return css`
-      color: #000;
-      background-color: #fff;
-      border: 3px solid #000;
+      color: ${(p) => p.theme.colors.black};
+      background-color: ${(p) => p.theme.colors.white};
+      border: 3px solid ${(p) => p.theme.colors.black};
 
       &:disabled {
-        color: #656565;
-        background-color: #fff;
-        border: 3px solid #656565;
+        color: ${(p) => p.theme.colors.grayDark};
+        background-color: ${(p) => p.theme.colors.white};
+        border: 3px solid ${(p) => p.theme.colors.grayDark};
       }
     `;
   }
 
   return css`
-    color: #fff;
-    background-color: #000;
+    color: ${(p) => p.theme.colors.white};
+    background-color: ${(p) => p.theme.colors.black};
     border: none;
   `;
 };

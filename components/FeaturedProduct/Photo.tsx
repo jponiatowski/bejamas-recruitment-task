@@ -58,7 +58,7 @@ const ImageWrapper = styled.div<{ ratio: number }>`
   &::after {
     content: "Photo of the day";
     padding: 21px 56px;
-    background-color: #fff;
+    background-color: ${(p) => p.theme.colors.white};
     position: absolute;
     bottom: 0;
     left: 0;

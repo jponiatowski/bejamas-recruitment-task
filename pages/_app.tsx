@@ -11,7 +11,7 @@ import Header from "components/Header";
 import { GlobalStyles } from "components/GlobalStyles";
 import client from "data/apollo-client";
 
-import { useApollo } from "~/data/client";
+import { useApollo } from "~/data/apollo-client";
 
 let persistor = persistStore(store);
 

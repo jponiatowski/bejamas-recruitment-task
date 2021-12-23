@@ -58,7 +58,7 @@ const MobileWrapper = styled.div`
   @media (max-width: ${(p) => p.theme.breakpoints.mobile}) {
     height: calc(100vh - 88px);
     width: 100%;
-    background-color: #fff;
+    background-color: ${(p) => p.theme.colors.white};
     overflow: auto;
     margin-top: 88px;
     position: relative;
@@ -85,7 +85,7 @@ const ButtonsContainer = styled.div<Pick<FiltersMenuContainerProps, "isOpen">>`
     padding: 0 16px;
     border-top: 4px solid #e4e4e4;
     z-index: ${zIndex.MOBILE_FILTERS_MENU_BUTTONS};
-    background-color: #fff;
+    background-color: ${(p) => p.theme.colors.white};
     transition: all 0.2s ease-in;
   }
 `;

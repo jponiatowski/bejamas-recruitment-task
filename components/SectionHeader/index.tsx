@@ -44,7 +44,7 @@ const Sublabel = styled.h3`
   &::before {
     content: "/";
     font-weight: ${(p) => p.theme.fontWeights.bold};
-    color: #000;
+    color: ${(p) => p.theme.colors.black};
     margin: 0 10px;
   }
 

@@ -9,7 +9,7 @@ import {
   fetchPriceRanges,
   fetchProducts,
 } from "~/data";
-import { initializeApollo, addApolloState } from "~/data/client";
+import { initializeApollo, addApolloState } from "~/data/apollo-client";
 import { getSortByFromQuery } from "~/utils/getSortByFromQuery";
 import { getOrderFromQuery } from "~/utils/getOrderFromQuery";
 

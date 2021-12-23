@@ -11,7 +11,7 @@ const NoProductsContainer = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
-  color: #656565;
+  color: ${(p) => p.theme.colors.grayDark};
   font-size: 22px;
 `;
 

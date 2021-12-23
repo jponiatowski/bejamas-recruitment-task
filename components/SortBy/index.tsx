@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 import SortIcon from "icons/Sort";
-import { TSortBy, TOrder } from "~/utils/getSortedData";
+import { TSortBy, TOrder } from "~/hooks/useSortBy";
 interface SortByProps {
   valueSortBy: TSortBy;
   valueOrder: TOrder;
@@ -82,11 +82,6 @@ const SortIconWrapper = styled.div`
   width: 15px;
   height: 15px;
   margin-right: 7px;
-  cursor: pointer;
-`;
-
-const ArrowIconWrapper = styled.div`
-  width: 16px;
   cursor: pointer;
 `;
 

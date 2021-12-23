@@ -99,7 +99,7 @@ const ProductName = styled.div`
 const ProductPrice = styled.div`
   font-size: 29px;
   line-height: 32px;
-  color: #656565;
+  color: ${(p) => p.theme.colors.grayDark};
 `;
 
 const ProductImageWrapper = styled.figure`
@@ -120,8 +120,8 @@ const Badge = styled.div`
   align-items: center;
   width: 21px;
   height: 21px;
-  background-color: #000;
-  color: #fff;
+  background-color: ${(p) => p.theme.colors.black};
+  color: ${(p) => p.theme.colors.white};
   position: absolute;
   bottom: 0;
   right: 0;

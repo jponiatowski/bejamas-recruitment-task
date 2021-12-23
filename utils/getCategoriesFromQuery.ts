@@ -1,8 +1,8 @@
 import { ParsedUrlQuery } from "querystring";
 
-export const getCategoriesFromQuery = async (
+export const getCategoriesFromQuery = (
   query: ParsedUrlQuery
-): Promise<string[] | undefined> => {
+): string[] | undefined => {
   if (!Object.keys(query).includes("categories")) {
     return;
   }
