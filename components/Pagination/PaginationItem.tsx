@@ -13,7 +13,7 @@ const PaginationItem: React.FC<PaginationItemProps> = ({
   onPageChange,
 }) => {
   const handlePageChange = () => {
-    onPageChange(page);
+    !active && onPageChange(page);
   };
 
   return (

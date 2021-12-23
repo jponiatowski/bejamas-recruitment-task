@@ -35,8 +35,10 @@ const PremiumPhotos: React.FC = () => {
     handleClear,
     handleChangeCategory,
     handleChangePriceRange,
-  } = useFilters(() => setCurrentPage(1));
-  const { sortBy, order, handleChangeOrder, handleSortBy } = useSortBy();
+  } = useFilters({ resetPagination: () => setCurrentPage(1) });
+  const { sortBy, order, handleChangeOrder, handleSortBy } = useSortBy({
+    resetPagination: () => setCurrentPage(1),
+  });
   const { products, productsCount, loading, fetchMore } = useFetchProducts({
     offset: (currentPage - 1) * limits.PRODUCTS_PER_PAGE,
     categories: selectedCategories.length ? selectedCategories : undefined,

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/router";
 import { getSortByFromQuery } from "~/utils/getSortByFromQuery";
 import { getOrderFromQuery } from "~/utils/getOrderFromQuery";
@@ -6,7 +6,11 @@ import { getOrderFromQuery } from "~/utils/getOrderFromQuery";
 export type TSortBy = "price" | "name";
 export type TOrder = "asc" | "desc";
 
-export const useSortBy = () => {
+export const useSortBy = ({
+  resetPagination,
+}: {
+  resetPagination: () => void;
+}) => {
   const router = useRouter();
   const [sortBy, setSortBy] = useState<TSortBy>(
     getSortByFromQuery(router.query)
@@ -14,6 +18,7 @@ export const useSortBy = () => {
   const [order, setOrder] = useState<TOrder>(getOrderFromQuery(router.query));
 
   const handleChangeOrder = (newOrder: TOrder): void => {
+    resetPagination();
     setOrder(newOrder);
 
     router.push(
@@ -26,6 +31,7 @@ export const useSortBy = () => {
   };
 
   const handleSortBy = (e: React.SyntheticEvent<HTMLSelectElement>): void => {
+    resetPagination();
     const newSortBy = (e.target as HTMLSelectElement).value as TSortBy;
     setSortBy(newSortBy);
 

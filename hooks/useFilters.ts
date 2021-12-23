@@ -8,7 +8,11 @@ import { useFilterPrice } from "./useFilterPrice";
 import { useIsMobile } from "~/hooks/useIsMobile";
 import { CategoriesQuery, PriceRangesQuery } from "~/types/hasura";
 
-export const useFilters = (resetPagination: () => void) => {
+export const useFilters = ({
+  resetPagination,
+}: {
+  resetPagination: () => void;
+}) => {
   const router = useRouter();
   const isMobile = useIsMobile();
   const { data: categoriesData } = useQuery<CategoriesQuery>(CATEGORIES_QUERY);
