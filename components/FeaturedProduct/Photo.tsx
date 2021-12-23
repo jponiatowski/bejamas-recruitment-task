@@ -31,6 +31,7 @@ export const Photo: React.FC<PhotoProps> = ({ width, height, src, alt }) => {
           height={height}
           layout="responsive"
           priority
+          placeholder="blur"
         />
       </Figure>
     </ImageWrapper>
