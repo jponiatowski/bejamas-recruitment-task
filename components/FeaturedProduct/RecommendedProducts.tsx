@@ -27,7 +27,6 @@ export const RecommendedProducts: React.FC<RecommendedProducts> = ({
               width={117}
               height={147}
               layout="responsive"
-              placeholder="blur"
             />
           </Figure>
         ))}

@@ -35,7 +35,6 @@ const Cart: React.FC = () => {
               </div>
               <ProductImageWrapper>
                 <NextImage
-                  placeholder="blur"
                   src={product.image.src}
                   alt={product.image.alt}
                   layout="responsive"

@@ -45,7 +45,6 @@ const Product: React.FC<ProductProps> = ({ product }) => {
           src={image.src}
           alt={image.alt}
           layout="responsive"
-          placeholder="blur"
         />
         {bestseller && <BestSeller>Best Seller</BestSeller>}
         {
