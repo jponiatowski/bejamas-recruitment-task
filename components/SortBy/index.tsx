@@ -2,20 +2,22 @@ import React from "react";
 import styled from "styled-components";
 
 import SortIcon from "icons/Sort";
-import { TSortBy } from "~/utils/getSortedData";
+import { TSortBy, TOrder } from "~/hooks/useSortBy";
 interface SortByProps {
-  value: TSortBy;
+  valueSortBy: TSortBy;
+  valueOrder: TOrder;
   options: {
     label: string;
     value: string;
   }[];
   className?: string;
   onChangeSortBy?: (e: React.SyntheticEvent<HTMLSelectElement>) => void;
-  onChangeOrder?: (e?: React.SyntheticEvent) => void;
+  onChangeOrder?: (order: TOrder) => void;
 }
 
 const SortBy: React.FC<SortByProps> = ({
-  value,
+  valueSortBy,
+  valueOrder,
   options,
   className,
   onChangeSortBy,
@@ -26,7 +28,8 @@ const SortBy: React.FC<SortByProps> = ({
   };
 
   const handleOrderChange = () => {
-    typeof onChangeOrder !== "undefined" && onChangeOrder();
+    const newOrder = valueOrder === "asc" ? "desc" : "asc";
+    typeof onChangeOrder !== "undefined" && onChangeOrder(newOrder);
   };
 
   return (
@@ -35,7 +38,7 @@ const SortBy: React.FC<SortByProps> = ({
         <SortIcon />
       </SortIconWrapper>
       <Label>Sort By</Label>
-      <Select value={value} name="sortBy" onChange={handleSortByChange}>
+      <Select value={valueSortBy} name="sortBy" onChange={handleSortByChange}>
         {options.map(({ value, label }) => (
           <Option key={value} value={value}>
             {label}
@@ -79,11 +82,6 @@ const SortIconWrapper = styled.div`
   width: 15px;
   height: 15px;
   margin-right: 7px;
-  cursor: pointer;
-`;
-
-const ArrowIconWrapper = styled.div`
-  width: 16px;
   cursor: pointer;
 `;
 

@@ -1,5 +1,4 @@
 import CATEGORIES_QUERY from "~/graphql/categories.gql";
-import client from "~/data/apollo-client";
 import { CategoriesQuery } from "~/types/hasura";
 import { ApolloClient, NormalizedCacheObject } from "@apollo/client";
 

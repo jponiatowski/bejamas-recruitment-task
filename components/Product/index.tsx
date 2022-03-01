@@ -2,10 +2,12 @@ import React from "react";
 import styled, { css } from "styled-components";
 import NextImage from "next/image";
 
-import Button from "components/Button";
-import { Product as ProductType } from "types/api";
+import Button from "~/components/Button";
+import { Product as ProductType } from "~/types/api";
 import { useAppDispatch } from "~/store/hooks";
-import { addProduct } from "store";
+import { addProduct } from "~/store";
+import { useIsMobile } from "~/hooks/useIsMobile";
+import { lockPageScroll } from "~/utils/lockPageScroll";
 
 interface ProductProps {
   product: ProductType;
@@ -14,11 +16,13 @@ interface ProductProps {
 const Product: React.FC<ProductProps> = ({ product }) => {
   const [showCartButton, setShowCartButton] = React.useState(false);
   const dispatch = useAppDispatch();
+  const isMobile = useIsMobile();
 
   const { image, category, name, price, bestseller } = product;
 
   const handleAddProduct = () => {
     dispatch(addProduct(product));
+    isMobile && lockPageScroll();
   };
 
   const handleShowCartButton = () => {
@@ -98,7 +102,7 @@ const BestSeller = styled.div`
   font-size: 20px;
   line-height: 22px;
   padding: 6px 19px;
-  background-color: #fff; ;
+  background-color: ${(p) => p.theme.colors.white};
 `;
 
 const Photo = styled.div`

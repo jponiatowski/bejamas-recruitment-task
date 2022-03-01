@@ -34,7 +34,7 @@ export const FiltersMenuContainer: React.FC<FiltersMenuContainerProps> = ({
   return (
     <>
       <FiltersMenuContainerCompoenet isOpen={isOpen}>
-        <Test>
+        <MobileWrapper>
           <MobileHeader>
             <span>Filter</span>
             <CloseIconWrapper onClick={onClose}>
@@ -42,7 +42,7 @@ export const FiltersMenuContainer: React.FC<FiltersMenuContainerProps> = ({
             </CloseIconWrapper>
           </MobileHeader>
           {children}
-        </Test>
+        </MobileWrapper>
         <ButtonsContainer isOpen={isOpen}>
           <Button onClick={hadnleClear} variant="secondary">
             Clear
@@ -54,11 +54,11 @@ export const FiltersMenuContainer: React.FC<FiltersMenuContainerProps> = ({
   );
 };
 
-const Test = styled.div`
+const MobileWrapper = styled.div`
   @media (max-width: ${(p) => p.theme.breakpoints.mobile}) {
     height: calc(100vh - 88px);
     width: 100%;
-    background-color: #fff;
+    background-color: ${(p) => p.theme.colors.white};
     overflow: auto;
     margin-top: 88px;
     position: relative;
@@ -85,7 +85,7 @@ const ButtonsContainer = styled.div<Pick<FiltersMenuContainerProps, "isOpen">>`
     padding: 0 16px;
     border-top: 4px solid #e4e4e4;
     z-index: ${zIndex.MOBILE_FILTERS_MENU_BUTTONS};
-    background-color: #fff;
+    background-color: ${(p) => p.theme.colors.white};
     transition: all 0.2s ease-in;
   }
 `;
@@ -120,17 +120,6 @@ const FiltersMenuContainerCompoenet = styled.div<
     z-index: ${zIndex.MOBILE_FILTERS_MENU};
     transition: all 0.2s ease-in;
   }
-`;
-
-const Overlay = styled.div<Pick<FiltersMenuContainerProps, "isOpen">>`
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: ${(p) => (p.isOpen ? "100vh" : "0px")};
-  width: 100vw;
-  background-color: #000;
-  opacity: 0.2;
-  z-index: ${zIndex.MOBILE_OVERLAY};
 `;
 
 const CloseIconWrapper = styled.div`

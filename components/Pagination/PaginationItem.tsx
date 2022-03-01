@@ -13,7 +13,7 @@ const PaginationItem: React.FC<PaginationItemProps> = ({
   onPageChange,
 }) => {
   const handlePageChange = () => {
-    onPageChange(page);
+    !active && onPageChange(page);
   };
 
   return (
@@ -26,7 +26,7 @@ const PaginationItem: React.FC<PaginationItemProps> = ({
 const PaginationItemComponent = styled.div<Pick<PaginationItemProps, "active">>`
   font-size: 29px;
   line-height: 32px;
-  color: ${(p) => (p.active ? "#000000" : "#b4b4b4")};
+  color: ${(p) => (p.active ? p.theme.colors.black : "#b4b4b4")};
   cursor: ${(p) => (p.active ? "not-allowed" : "pointer")};
   margin-left: 15px;
 

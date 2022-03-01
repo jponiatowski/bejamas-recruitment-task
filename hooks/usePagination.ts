@@ -17,7 +17,6 @@ export const usePagination = ({
     () => Math.ceil(productsCount / limits.PRODUCTS_PER_PAGE),
     [productsCount]
   );
-
   const router = useRouter();
   const [isFirstPage, setIsFirstPage] = useState(currentPage === 1);
   const [isLastPage, setIsLastPage] = useState(currentPage === pagesCount);

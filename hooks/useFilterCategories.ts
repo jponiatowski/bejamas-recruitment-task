@@ -37,19 +37,6 @@ export const useFilterCategories = ({
   };
 
   const handleClearCategories = () => {
-    const newQuery = { ...router.query };
-    delete newQuery.categories;
-
-    router.push(
-      {
-        query: {
-          ...newQuery,
-        },
-      },
-      undefined,
-      { scroll: false, shallow: true }
-    );
-
     setCategories([]);
   };
 
@@ -59,7 +46,7 @@ export const useFilterCategories = ({
       {
         query: {
           ...router.query,
-          categories: categories,
+          categories,
         },
       },
       undefined,

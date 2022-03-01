@@ -9,7 +9,6 @@ import Product from "components/Product";
 import Pagination from "components/Pagination";
 import { lockPageScroll } from "utils/lockPageScroll";
 import { unlockPageScroll } from "utils/unlockPageScroll";
-import { Categories, PriceRanges, Product as ProductType } from "types/api";
 import { useSortBy } from "~/hooks/useSortBy";
 import getPriceRangeLabel from "~/utils/getPriceRangeLabel";
 import { useFilters } from "~/hooks/useFilters";
@@ -36,15 +35,19 @@ const PremiumPhotos: React.FC = () => {
     handleClear,
     handleChangeCategory,
     handleChangePriceRange,
-  } = useFilters(() => setCurrentPage);
+  } = useFilters({ resetPagination: () => setCurrentPage(1) });
+  const { sortBy, order, handleChangeOrder, handleSortBy } = useSortBy({
+    resetPagination: () => setCurrentPage(1),
+  });
   const { products, productsCount, loading, fetchMore } = useFetchProducts({
     offset: (currentPage - 1) * limits.PRODUCTS_PER_PAGE,
     categories: selectedCategories.length ? selectedCategories : undefined,
     lte: selectedPriceRange?.less_than || undefined,
     gte: selectedPriceRange?.greater_than || undefined,
+    order_by: {
+      [sortBy]: order,
+    },
   });
-  const { sortedProducts, sortBy, handleChangeOrder, handleSortBy } =
-    useSortBy(products);
 
   const onPageChange = (page: number) => {
     fetchMore();
@@ -65,7 +68,8 @@ const PremiumPhotos: React.FC = () => {
       <Header>
         <StyledSectionHeader label="Photography" sublabel="Premium Photos" />
         <StyledSortBy
-          value={sortBy}
+          valueSortBy={sortBy}
+          valueOrder={order}
           onChangeOrder={handleChangeOrder}
           onChangeSortBy={handleSortBy}
           options={sortByOptions}
@@ -103,7 +107,7 @@ const PremiumPhotos: React.FC = () => {
       {!loading && !products.length && <NoProducts />}
 
       <PhotoGrid>
-        {sortedProducts.map((product) => (
+        {products.map((product) => (
           <Product key={product.id} product={product} />
         ))}
       </PhotoGrid>

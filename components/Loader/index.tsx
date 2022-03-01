@@ -16,9 +16,9 @@ const spin = keyframes`
 `;
 
 const Spinner = styled.div`
-  border: 4px solid #f3f3f3;
+  border: 4px solid ${(p) => p.theme.colors.grayLight};
   border-radius: 50%;
-  border-top: 4px solid #656565;
+  border-top: 4px solid ${(p) => p.theme.colors.grayDark};
   width: 30px;
   height: 30px;
   animation: ${spin} 2s linear infinite;
